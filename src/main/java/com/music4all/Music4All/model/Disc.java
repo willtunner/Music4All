@@ -1,5 +1,6 @@
 package com.music4all.Music4All.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Disc {
 
     private String name;
 
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
 
     private String description;
@@ -29,16 +31,16 @@ public class Disc {
     private LocalDate release;
 
     @Column(name = "likes", columnDefinition = "integer default 0")
-    private Integer like = 0;
+    private Integer like;
 
     @Column(columnDefinition = "integer default 0")
-    private Integer dislike = 0;
+    private Integer dislike;
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
 
     @ManyToMany
-    @JoinTable(name = "disc-members",
+    @JoinTable(name = "disc_members",
             joinColumns = @JoinColumn(name = "disc_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     public Set<User> members = new HashSet<>();
@@ -46,10 +48,9 @@ public class Disc {
     @OneToMany(mappedBy = "disc")
     private List<Music> musics;
 
-    @ManyToOne()
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "band_id")
     private Band band;
-
 
 }

@@ -1,5 +1,6 @@
 package com.music4all.Music4All.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,13 @@ public class Band {
 
     private String genre;
 
+    private String country;
+
+    private String city;
+
+    private String state;
+
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
@@ -36,8 +44,13 @@ public class Band {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> musics;
 
-    @OneToMany(mappedBy = "band")
+    @OneToMany(mappedBy = "band", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Disc> discs;
+
+    @ManyToOne
+    @JoinColumn(name = "creator")
+    @JsonIgnore
+    private User creator;
 
 
 }

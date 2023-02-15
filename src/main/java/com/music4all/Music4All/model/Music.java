@@ -25,6 +25,7 @@ public class Music {
 
     private String description;
 
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
 
     private LocalDate releaseDate;
