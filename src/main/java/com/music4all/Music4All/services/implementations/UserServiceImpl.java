@@ -38,21 +38,29 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public Boolean deleteUser(Long idUser) {
-        return null;
+        log.info( "Delete User by id: ", idUser );
+        userRepository.deleteById(idUser);
+        return true;
     }
 
     @Override
     public List<User> getUsers() {
-        return null;
+        log.info("List all users ");
+        return userRepository.findAll();
     }
 
     @Override
     public Optional<User> getUserById(Long idUser) {
-        return Optional.empty();
+        return userRepository.findById(idUser);
     }
 
     @Override
     public User updateUser(User user) {
-        return null;
+        if ( user.getId() != null) {
+            log.info("User {} saved success", user.getName());
+            return userRepository.save(user);
+        }
+        log.info("User DON'T update");
+        return user;
     }
 }

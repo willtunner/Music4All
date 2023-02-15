@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "users")
 @Data
@@ -27,6 +28,8 @@ public class User {
 
     private String gender;
 
+    private Integer age = 0;
+
     private LocalDateTime created = LocalDateTime.now();
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
@@ -45,19 +48,18 @@ public class User {
      */
 
     // Mudar bands
-    /*
+
     @ManyToMany(mappedBy = "musics")
     private List<Band> bands;
-     */
+
 
     // Mudar discs
-    /*
     @ManyToMany(mappedBy = "musicsByMusic")
     private List<Music> musics;
-     */
+
 
     // Seguidores
-    /*
+
     // Um usuário pode ter muitos seguidores - followers
     @OneToMany(mappedBy="to")
     private List<Followers> followers;
@@ -65,5 +67,5 @@ public class User {
     // Um usuário pode seguir vários usuários - following
     @OneToMany(mappedBy="from")
     private List<Followers> following;
-     */
+
 }
