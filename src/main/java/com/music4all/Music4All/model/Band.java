@@ -1,4 +1,5 @@
 package com.music4all.Music4All.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -44,12 +45,14 @@ public class Band {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> musics;
 
-    @OneToMany(mappedBy = "band", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Disc> discs;
 
-    @ManyToOne
-    @JoinColumn(name = "creator")
-    @JsonIgnore
+    @Column(name = "creator_id")
+    private Long creatorId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "creator_id", insertable = false, updatable = false)
+    @JsonBackReference
     private User creator;
 
 

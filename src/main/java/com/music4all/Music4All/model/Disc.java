@@ -48,9 +48,11 @@ public class Disc {
     @OneToMany(mappedBy = "disc")
     private List<Music> musics;
 
+    @Column(name = "band_id")
+    private Long bandId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JoinColumn(name = "band_id")
+    @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
 
 }
