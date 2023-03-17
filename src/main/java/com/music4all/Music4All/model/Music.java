@@ -1,5 +1,8 @@
 package com.music4all.Music4All.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,8 +44,13 @@ public class Music {
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
 
+    @Column(name = "disc_id")
+    private Long discId;
     @ManyToOne
-    @JoinColumn(name = "disc_id")
+    @JoinColumn(name = "disc_id", insertable = false, updatable = false)
+    @JsonIgnore
+    @JsonBackReference
+    @JsonProperty("disc")
     private Disc disc;
 
     @ManyToMany

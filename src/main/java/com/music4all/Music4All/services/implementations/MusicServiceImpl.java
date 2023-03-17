@@ -1,0 +1,76 @@
+package com.music4all.Music4All.services.implementations;
+
+import com.music4all.Music4All.model.Music;
+import com.music4all.Music4All.repositoriees.MusicRepository;
+import com.music4all.Music4All.services.MusicServiceInterface;
+import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
+public class MusicServiceImpl implements MusicServiceInterface {
+
+    private final MusicRepository musicRepository;
+
+    @Override
+    public Music saveMusic(Music music) throws MessagingException {
+        if(music != null) {
+            log.info("Saving new music {} to the database", music.getNameMusic());
+            return musicRepository.save(music);
+        }
+        return null;
+    }
+
+    @Override
+    public Music getMusic(String bandMusic) {
+        return null;
+    }
+
+    @Override
+    public List<Music> getMusicByName(String name) {
+        if (name != null) {
+            System.out.println("Nome da musica: " + name);
+            List<Music> music = musicRepository.findByName(name);
+            log.info("Saving new music {} to the database");
+            return music;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Boolean deleteMusic(Long idMusic) {
+        log.info( "Delete Music by id: ", idMusic );
+        musicRepository.deleteById(idMusic);
+        return true;
+    }
+
+    @Override
+    public List<Music> getAllMusics() {
+        log.info("List all musics ");
+        return musicRepository.findAll();
+    }
+
+    @Override
+    public Optional<Music> getMusicById(Long idMusic) {
+        return musicRepository.findById(idMusic);
+    }
+
+    @Override
+    public Music updateMusic(Music music) {
+        if ( music.getId() != null) {
+            log.info("Music {} updated success", music.getNameMusic());
+            return musicRepository.save(music);
+        }
+        log.info("Music DON'T update");
+        return music;
+    }
+}

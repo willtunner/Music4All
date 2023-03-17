@@ -4,6 +4,7 @@ import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.implementations.UserServiceImpl;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<Response> getUsers() throws InterruptedException {
         //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("users", userService.getUsers()))
+                        .data(Map.of("users", userService.getAllUsers()))
                         .message("Usuários recuperados")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -34,8 +35,8 @@ public class UserController {
         );
     }
 
-    @PostMapping("/save-user")
-    public ResponseEntity<Response> saveUser(@RequestBody User user) throws MessagingException, MessagingException {
+    @PostMapping
+    public ResponseEntity<Response> saveUser(@RequestBody @Valid User user) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
@@ -47,7 +48,7 @@ public class UserController {
         );
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
                 Response.builder()
@@ -60,7 +61,7 @@ public class UserController {
         );
     }
 
-    @GetMapping("/user-by-id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Response> findUserById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(
@@ -74,8 +75,22 @@ public class UserController {
         );
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    @GetMapping("list/{name}")
+    public ResponseEntity<Response> findMusicByName(@PathVariable("name") String name) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("listado: ", userService.getUsers(name)))
+                        .message("Musica por name listado!")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @RequestBody  @Valid User user) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())

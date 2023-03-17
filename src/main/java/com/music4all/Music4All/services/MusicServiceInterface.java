@@ -9,8 +9,10 @@ import java.util.Optional;
 public interface MusicServiceInterface {
     Music saveMusic(Music music) throws MessagingException;
     Music getMusic(String bandMusic);
+
+    List<Music> getMusicByName(String name);
     Boolean deleteMusic(Long idMusic);
-    List<Music> getMusic();
+    List<Music> getAllMusics();
     Optional<Music> getMusicById(Long idMusic);
     Music updateMusic(Music music);
 }

@@ -1,6 +1,7 @@
 package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.model.Band;
+import com.music4all.Music4All.model.Music;
 import com.music4all.Music4All.repositoriees.BandRepository;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.BandServiceInterface;
@@ -29,6 +30,30 @@ public class BandServiceImpl implements BandServiceInterface {
 
     @Override
     public Band getBand(String bandName) {
+        return null;
+    }
+
+    @Override
+    public List<Band> getBandByName(String name) {
+        if (name != null) {
+            System.out.println("Nome da banda: " + name);
+            List<Band> band = bandRepository.findByName(name);
+            log.info("Saving new music {} to the database");
+            return band;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Band> getBandByState(String state) {
+        if (state != null) {
+            System.out.println("Estado da banda: " + state);
+            List<Band> band = bandRepository.findBandByState(state);
+            log.info("Listando Bandas por Estado");
+            return band;
+        }
+
         return null;
     }
 

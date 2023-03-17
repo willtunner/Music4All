@@ -31,10 +31,6 @@ public class UserServiceImpl implements UserServiceInterface {
         return userRepository.save(user);
     }
 
-    @Override
-    public User getUser(String username) {
-        return null;
-    }
 
     @Override
     public Boolean deleteUser(Long idUser) {
@@ -44,7 +40,19 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers(String name) {
+        if (name != null) {
+            System.out.println("Nome do usuário: " + name);
+            List<User> user = userRepository.findByName(name);
+//            log.info("Saving new user {} to the database");
+            return user;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
         log.info("List all users ");
         return userRepository.findAll();
     }

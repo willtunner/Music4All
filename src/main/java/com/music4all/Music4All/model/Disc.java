@@ -3,6 +3,7 @@ package com.music4all.Music4All.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class Disc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "{name.not.blank}")
     private String name;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -52,6 +54,7 @@ public class Disc {
     private Long bandId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
 

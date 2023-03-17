@@ -18,36 +18,44 @@ import java.util.Optional;
 @Slf4j
 public class DiscServiceImpl implements DiscServiceInterface {
 
-    private final DiscRepository disckRepository;
+    private final DiscRepository discRepository;
 
     @Override
     public Disc saveDisc(Disc disc) throws MessagingException {
         log.info("Saving new Disc {} to the database", disc.getName());
-        return disckRepository.save(disc);
+        return discRepository.save(disc);
     }
 
     @Override
-    public Disc getDisc(String disc) {
-        return null;
+    public Disc getDisc(String discName) {
+        return discRepository.findByName(discName);
     }
 
     @Override
     public Boolean deleteDisc(Long idDisc) {
-        return null;
+        log.info( "Delete Disc by id: ", idDisc );
+        discRepository.deleteById(idDisc);
+        return true;
     }
 
     @Override
     public List<Disc> getDisc() {
-        return null;
+        log.info("List all discs ");
+        return discRepository.findAll();
     }
 
     @Override
     public Optional<Disc> getDiscById(Long idDisc) {
-        return Optional.empty();
+        return discRepository.findById(idDisc);
     }
 
     @Override
     public Disc updateBand(Disc disc) {
-        return null;
+        if ( disc.getId() != null) {
+            log.info("User {} saved success", disc.getName());
+            return discRepository.save(disc);
+        }
+        log.info("Disc DON'T update");
+        return disc;
     }
 }

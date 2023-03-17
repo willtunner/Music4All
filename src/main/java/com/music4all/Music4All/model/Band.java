@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Band {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "{name.not.blank}")
     private String name;
 
     @Column(name = "likes", columnDefinition = "integer default 0")
@@ -27,10 +29,13 @@ public class Band {
 
     private String genre;
 
+    @NotBlank(message = "{bandCountry.not.blank}")
     private String country;
 
+    @NotBlank(message = "{bandCity.not.blank}")
     private String city;
 
+    @NotBlank(message = "{bandState.not.blank}")
     private String state;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -43,17 +48,21 @@ public class Band {
     @JoinTable(name = "users_band",
             joinColumns = @JoinColumn(name = "band_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
+    @JsonBackReference
     private List<User> musics;
 
     @OneToMany(mappedBy = "band", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Disc> discs;
 
     @Column(name = "creator_id")
     private Long creatorId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id", insertable = false, updatable = false)
+    @JsonIgnore
     @JsonBackReference
+    @JsonProperty("creator")
     private User creator;
-
 
 }
