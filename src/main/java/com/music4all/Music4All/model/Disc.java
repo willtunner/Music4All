@@ -54,7 +54,7 @@ public class Disc {
     private Long bandId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
 

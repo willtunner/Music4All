@@ -11,6 +11,8 @@ public interface MusicServiceInterface {
     Music getMusic(String bandMusic);
 
     List<Music> getMusicByName(String name);
+
+    List<Music> getMusicsMoreAuditions();
     Boolean deleteMusic(Long idMusic);
     List<Music> getAllMusics();
     Optional<Music> getMusicById(Long idMusic);

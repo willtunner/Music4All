@@ -22,7 +22,7 @@ public class DiscController {
 
     private final DiscServiceImpl discService;
 
-    @PostMapping("/save-disc")
+    @PostMapping
     public ResponseEntity<Response> saveUser(@RequestBody Disc disc) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
@@ -35,7 +35,7 @@ public class DiscController {
         );
     }
 
-    @GetMapping("/discs")
+    @GetMapping
     public ResponseEntity<Response> getBands() throws InterruptedException {
         //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
@@ -49,7 +49,7 @@ public class DiscController {
         );
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
                 Response.builder()
@@ -62,7 +62,7 @@ public class DiscController {
         );
     }
 
-    @GetMapping("/band-by-id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Response> findUserById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(

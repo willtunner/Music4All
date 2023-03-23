@@ -1,18 +1,24 @@
 package com.music4all.Music4All.services;
 
 import com.music4all.Music4All.model.Band;
-import com.music4all.Music4All.model.Music;
+import com.music4all.Music4All.model.User;
 import jakarta.mail.MessagingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface BandServiceInterface {
 
-    Band saveBand(Band band) throws MessagingException;
+    Band saveBand(Band band, MultipartFile file) throws MessagingException, IOException;
     Band getBand(String bandName);
+
+    Band updateBand(Long id, List<User> users);
     List<Band> getBandByName(String name);
     List<Band> getBandByState(String state);
+
+    List<Band> getBandByStateByLimit(String state);
     Boolean deleteBand(Long idBand);
     List<Band> getBands();
     Optional<Band> getBandById(Long idBand);

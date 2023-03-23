@@ -14,4 +14,7 @@ public interface BandRepository extends JpaRepository<Band, Long> {
     List<Band> findByName(@Param("name") String name);
 
     List<Band> findBandByState(String state);
+
+    //List<Employee> findFirst2ByDeptOrderBySalaryDesc(String state);
+    List<Band> findTop5ByStateOrderByLikeAsc(String state);
 }

@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserServiceInterface {
     public User updateUser(User user) {
         if ( user.getId() != null) {
             log.info("User {} saved success", user.getName());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
         log.info("User DON'T update");

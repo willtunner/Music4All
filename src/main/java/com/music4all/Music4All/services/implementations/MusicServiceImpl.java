@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,12 @@ public class MusicServiceImpl implements MusicServiceInterface {
     }
 
     @Override
+    public List<Music> getMusicsMoreAuditions() {
+//        return musicRepository.findAll(Sort.by(Sort.Direction.DESC, "auditions"));
+        return musicRepository.findTop5ByOrderByAuditionsDesc();
+    }
+
+    @Override
     public Boolean deleteMusic(Long idMusic) {
         log.info( "Delete Music by id: ", idMusic );
         musicRepository.deleteById(idMusic);
@@ -73,4 +80,5 @@ public class MusicServiceImpl implements MusicServiceInterface {
         log.info("Music DON'T update");
         return music;
     }
+
 }

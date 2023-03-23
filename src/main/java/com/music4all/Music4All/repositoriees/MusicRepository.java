@@ -13,4 +13,6 @@ public interface MusicRepository extends JpaRepository<Music, Long> {
 
     @Query(value = "select * from music where name_music ilike :name% ", nativeQuery = true)
     List<Music> findByName(@Param("name") String name);
+
+    List<Music> findTop5ByOrderByAuditionsDesc();
 }

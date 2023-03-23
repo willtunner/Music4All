@@ -1,15 +1,20 @@
 package com.music4all.Music4All.controllers;
 
 import com.music4all.Music4All.model.Band;
+import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.implementations.BandServiceImpl;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,11 +25,12 @@ public class BandController {
     private final BandServiceImpl bandService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Band band) throws MessagingException, MessagingException {
+    @RequestMapping
+    public ResponseEntity<Response> saveUser(@RequestBody Band band, @RequestParam("fileImage") MultipartFile file) throws MessagingException, MessagingException, IOException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandService.saveBand(band)))
+                        .data(Map.of("band", bandService.saveBand(band, file)))
                         .message("Banda criada com sucesso!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -39,7 +45,7 @@ public class BandController {
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
                         .data(Map.of("bands", bandService.getBands()))
-                        .message("Bandas recuperadas")
+                        .message("Todas as bandas listadas")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -67,7 +73,21 @@ public class BandController {
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
                         .data(Map.of("listado: ", bandService.getBandByName(name)))
-                        .message("Musica por name listado!")
+                        .message("Banda por name!")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @GetMapping("/more-auditions-by-state/{state}")
+    public ResponseEntity<Response> moreAuditionsByState(@PathVariable("state")  String state) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("listado: ", bandService.getBandByStateByLimit(state)))
+                        .message("Bandas do seu estado mais escutadas")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -95,7 +115,21 @@ public class BandController {
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
                         .data(Map.of("listado: ", bandService.getBandById(id)))
-                        .message("Banda listada!")
+                        .message("Banda listada por id")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @PutMapping
+    public ResponseEntity<Response> addMusics(@RequestBody Band band) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("listado: ", bandService.updateBand(band)))
+                        .message("Banda Atualizada por id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()

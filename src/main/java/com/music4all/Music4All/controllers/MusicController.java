@@ -61,6 +61,20 @@ public class MusicController {
         );
     }
 
+    @GetMapping("/more-auditions")
+    public ResponseEntity<Response> moreAuditions() {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("listado: ", musicService.getMusicsMoreAuditions()))
+                        .message("Musica mais escutadas")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
     @GetMapping("list/{name}")
     public ResponseEntity<Response> findMusicByName(@PathVariable("name") String name) {
 
