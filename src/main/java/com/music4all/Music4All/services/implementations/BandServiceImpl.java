@@ -3,6 +3,7 @@ package com.music4all.Music4All.services.implementations;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.BandRepository;
+import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.BandServiceInterface;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
@@ -28,28 +29,29 @@ import java.util.Optional;
 public class BandServiceImpl implements BandServiceInterface {
 
     private final BandRepository bandRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public Band saveBand(Band band, MultipartFile file) throws MessagingException, IOException {
+    public Band saveBand(Band band) throws MessagingException, IOException {
         log.info("Saving new band {} to the database", band.getName());
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        System.out.println("File Name:" + fileName);
-        band.setLogo(fileName);
+//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//        System.out.println("File Name:" + fileName);
+//        band.setLogo(fileName);
         Band bandSaved = bandRepository.save(band);
-        String uploadDir = "/band-image/" + bandSaved.getId();
-        Path uploadPath = Paths.get(uploadDir);
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        try (InputStream inputStream = file.getInputStream()){
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Não pode salvar o arquivo: " + fileName);
-        }
+//        String uploadDir = "/band-image/" + bandSaved.getId();
+//        Path uploadPath = Paths.get(uploadDir);
+//
+//        if (!Files.exists(uploadPath)) {
+//            Files.createDirectories(uploadPath);
+//        }
+//
+//        try (InputStream inputStream = file.getInputStream()){
+//            Path filePath = uploadPath.resolve(fileName);
+//            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+//        } catch (IOException e) {
+//            throw new IOException("Não pode salvar o arquivo: " + fileName);
+//        }
 
         return band;
     }
@@ -60,14 +62,22 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
+    public Band addMember(Long bandId, Long memberId) {
+        Band band = bandRepository.findById(bandId).orElse(null);
+        User member = userRepository.findById(memberId).orElse(null);
+        band.addMembers(member);
+        return bandRepository.save(band);
+    }
+
+    @Override
     public Band updateBand(Long id, List<User> musics) {
         Band band = bandRepository.findById(id).orElse(null);
 
-        if (!musics.isEmpty()) {
-            if (band != null) {
-                band.setMusics(musics);
-            }
-        }
+//        if (!musics.isEmpty()) {
+//            if (band != null) {
+//                band.setMusics(musics);
+//            }
+//        }
 
         return null;
     }

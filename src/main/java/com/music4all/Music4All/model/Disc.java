@@ -2,6 +2,7 @@ package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -41,10 +42,11 @@ public class Disc {
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "disc_members",
             joinColumns = @JoinColumn(name = "disc_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<User> members = new HashSet<>();
 
     @OneToMany(mappedBy = "disc")
@@ -54,7 +56,6 @@ public class Disc {
     private Long bandId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-//    @JsonIgnore
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
 

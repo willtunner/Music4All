@@ -1,9 +1,6 @@
 package com.music4all.Music4All.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,12 +9,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User {
 
     @Id
@@ -61,8 +61,12 @@ public class User {
     @OneToMany(mappedBy="from")
     private List<Followers> following;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
-    @JsonManagedReference
-    private List<Band> band;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
+//    @JsonManagedReference
+//    private List<Band> band;
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    List<Band> bands;
 
 }

@@ -49,7 +49,6 @@ public class MusicServiceImpl implements MusicServiceInterface {
 
     @Override
     public List<Music> getMusicsMoreAuditions() {
-//        return musicRepository.findAll(Sort.by(Sort.Direction.DESC, "auditions"));
         return musicRepository.findTop5ByOrderByAuditionsDesc();
     }
 

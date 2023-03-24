@@ -2,6 +2,7 @@ package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -53,9 +54,10 @@ public class Music {
     @JsonProperty("disc")
     private Disc disc;
 
-    @ManyToMany
-    @JoinTable(name = "users_by_music",
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "members_by_music",
             joinColumns = @JoinColumn(name = "music_id"),
             inverseJoinColumns = @JoinColumn(name = "user_music_id"))
-    private List<User> musicsByMusic;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<User> membersByMusic;
 }

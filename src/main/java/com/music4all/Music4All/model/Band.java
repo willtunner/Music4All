@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -51,8 +53,7 @@ public class Band {
     private List<User> musics;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    @JsonManagedReference
+    @JsonManagedReference
     private List<Disc> discs;
 
     @Column(name = "creator_id")
@@ -60,8 +61,19 @@ public class Band {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", insertable = false, updatable = false)
     @JsonIgnore
-//    @JsonBackReference
-//    @JsonProperty("creator")
     private User creator;
+
+    @ManyToMany
+    @JoinTable(
+            name = "band_members",
+            joinColumns = @JoinColumn(name = "band_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<User> members;
+
+    public void addMembers(User member) {
+        members.add(member);
+    }
+
 
 }

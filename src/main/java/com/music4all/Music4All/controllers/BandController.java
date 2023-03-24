@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,11 +25,11 @@ public class BandController {
 
     @PostMapping
     @RequestMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Band band, @RequestParam("fileImage") MultipartFile file) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> saveUser(@RequestBody Band band) throws MessagingException, MessagingException, IOException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandService.saveBand(band, file)))
+                        .data(Map.of("band", bandService.saveBand(band)))
                         .message("Banda criada com sucesso!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -135,4 +134,32 @@ public class BandController {
                         .build()
         );
     }
+
+    @PutMapping("/{bandId}/members/{memberId}")
+    public ResponseEntity<Response> addMusics(@PathVariable Long bandId, @PathVariable Long memberId) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("listado: ", bandService.addMember(bandId, memberId )))
+                        .message("Membros add")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+//    @PutMapping("/{bandId}/members/{memberId}")
+//    public ResponseEntity<Response> addDisc(@PathVariable Long bandId, @PathVariable Long memberId) {
+//
+//        return ResponseEntity.ok(
+//                Response.builder()
+//                        .timeStamp(LocalDateTime.now())
+//                        .data(Map.of("listado: ", bandService.addMember(bandId, memberId )))
+//                        .message("Membros add")
+//                        .status(HttpStatus.OK)
+//                        .statusCode(HttpStatus.OK.value())
+//                        .build()
+//        );
+//    }
 }

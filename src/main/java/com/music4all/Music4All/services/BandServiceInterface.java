@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public interface BandServiceInterface {
 
-    Band saveBand(Band band, MultipartFile file) throws MessagingException, IOException;
+    Band saveBand(Band band) throws MessagingException, IOException;
     Band getBand(String bandName);
-
+    Band addMember(Long bandId, Long memberId);
     Band updateBand(Long id, List<User> users);
     List<Band> getBandByName(String name);
     List<Band> getBandByState(String state);

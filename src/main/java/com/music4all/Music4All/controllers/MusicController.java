@@ -33,7 +33,7 @@ public class MusicController {
         );
     }
 
-    @GetMapping("/musics")
+    @GetMapping
     public ResponseEntity<Response> getMusics() throws InterruptedException {
         //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
