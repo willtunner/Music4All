@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -21,7 +19,7 @@ public class Band {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    @Column(length = 45, nullable = true)
+    @Column(length = 255, nullable = true)
     private String logo;
 
     @Column(name = "likes", columnDefinition = "integer default 0")
@@ -48,8 +46,6 @@ public class Band {
     private Boolean deleted = Boolean.FALSE;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @JsonBackReference
     private List<User> musics;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -10,15 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,27 +25,8 @@ public class BandServiceImpl implements BandServiceInterface {
 
     @Override
     public Band saveBand(Band band) throws MessagingException, IOException {
-        log.info("Saving new band {} to the database", band.getName());
+        return bandRepository.save(band);
 
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        System.out.println("File Name:" + fileName);
-//        band.setLogo(fileName);
-        Band bandSaved = bandRepository.save(band);
-//        String uploadDir = "/band-image/" + bandSaved.getId();
-//        Path uploadPath = Paths.get(uploadDir);
-//
-//        if (!Files.exists(uploadPath)) {
-//            Files.createDirectories(uploadPath);
-//        }
-//
-//        try (InputStream inputStream = file.getInputStream()){
-//            Path filePath = uploadPath.resolve(fileName);
-//            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-//        } catch (IOException e) {
-//            throw new IOException("Não pode salvar o arquivo: " + fileName);
-//        }
-
-        return band;
     }
 
     @Override
@@ -71,7 +44,7 @@ public class BandServiceImpl implements BandServiceInterface {
 
     @Override
     public Band updateBand(Long id, List<User> musics) {
-        Band band = bandRepository.findById(id).orElse(null);
+//        Band band = bandRepository.findById(id).orElse(null);
 
 //        if (!musics.isEmpty()) {
 //            if (band != null) {

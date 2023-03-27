@@ -27,6 +27,9 @@ public class Music {
 
     private String lyric;
 
+    @Column(name = "favorite", columnDefinition = "integer default 0")
+    private Integer favorite;
+
     private String description;
 
     @Column(columnDefinition = "TIMESTAMP")
