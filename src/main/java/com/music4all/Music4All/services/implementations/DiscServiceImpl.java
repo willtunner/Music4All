@@ -39,6 +39,11 @@ public class DiscServiceImpl implements DiscServiceInterface {
     }
 
     @Override
+    public List<Disc> getDiscsByBand(Long id) {
+        return discRepository.findByBandId(id);
+    }
+
+    @Override
     public List<Disc> getDisc() {
         log.info("List all discs ");
         return discRepository.findAll();

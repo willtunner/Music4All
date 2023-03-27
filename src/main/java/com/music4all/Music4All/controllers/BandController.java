@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("/band")
-@CrossOrigin
+//@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class BandController {
     private final BandServiceImpl bandService;

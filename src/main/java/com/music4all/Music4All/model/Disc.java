@@ -33,6 +33,8 @@ public class Disc {
 
     private LocalDate release;
 
+    private String image;
+
     @Column(name = "likes", columnDefinition = "integer default 0")
     private Integer like;
 

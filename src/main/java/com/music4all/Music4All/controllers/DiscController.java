@@ -68,7 +68,21 @@ public class DiscController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Disco by id: ", discService.getDiscById(id)))
+                        .data(Map.of("discById", discService.getDiscById(id)))
+                        .message("Disco!")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @GetMapping("band/{id}")
+    public ResponseEntity<Response> findDiscByBand(@PathVariable("id") Long id) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("discs", discService.getDiscsByBand(id)))
                         .message("Disco!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

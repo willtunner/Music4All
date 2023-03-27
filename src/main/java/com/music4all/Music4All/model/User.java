@@ -27,6 +27,8 @@ public class User {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
+    private String image;
+
     @Email
     @NotBlank(message = "{email.not.blank}")
     @Email(message = "{email.not.valid}")

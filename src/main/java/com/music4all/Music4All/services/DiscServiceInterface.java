@@ -11,6 +11,8 @@ public interface DiscServiceInterface {
     Disc saveDisc(Disc disc) throws MessagingException;
     Disc getDisc(String disc);
     Boolean deleteDisc(Long idDisc);
+
+    List<Disc> getDiscsByBand(Long id);
     List<Disc> getDisc();
     Optional<Disc> getDiscById(Long idDisc);
     Disc updateBand(Disc disc);
