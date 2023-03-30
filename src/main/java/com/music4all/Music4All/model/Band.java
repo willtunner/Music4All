@@ -19,8 +19,10 @@ public class Band {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    @Column(length = 255, nullable = true)
-    private String logo;
+    @Lob
+    private byte[] data;
+    private String fileName;
+    private String fileType;
 
     @Column(name = "likes", columnDefinition = "integer default 0")
     private Integer like = 0;
@@ -72,4 +74,25 @@ public class Band {
     }
 
 
+    public Band(String name, byte[] data, String fileName, String fileType, Integer like, Integer dislike,
+                String genre, String country, String city, String state, LocalDateTime created, Boolean deleted,
+                List<User> musics, List<Disc> discs, Long creatorId, User creator, List<User> members) {
+        this.name = name;
+        this.data = data;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.like = like;
+        this.dislike = dislike;
+        this.genre = genre;
+        this.country = country;
+        this.city = city;
+        this.state = state;
+        this.created = created;
+        this.deleted = deleted;
+        this.musics = musics;
+        this.discs = discs;
+        this.creatorId = creatorId;
+        this.creator = creator;
+        this.members = members;
+    }
 }

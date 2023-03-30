@@ -1,19 +1,24 @@
 package com.music4all.Music4All.controllers;
 
+import com.music4all.Music4All.model.Attachment;
 import com.music4all.Music4All.model.Band;
-import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.implementations.BandServiceImpl;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,15 +30,23 @@ public class BandController {
     private final BandServiceImpl bandService;
 
     @PostMapping
-    @RequestMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Band band) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> saveUser(@RequestBody Band band, @RequestParam("file") MultipartFile file) throws MessagingException, MessagingException, IOException {
+
+        String downloadURL = "";
+        Band bandSaved = bandService.saveBand(band, file);
+        downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("band/image/")
+                .path(bandSaved.getId().toString())
+                .toUriString();
+
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandService.saveBand(band)))
+                        .data(Map.of("band", bandSaved))
                         .message("Banda criada com sucesso!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
+                        .downloadURL(downloadURL)
                         .build()
         );
     }
@@ -150,17 +163,20 @@ public class BandController {
         );
     }
 
-//    @PutMapping("/{bandId}/members/{memberId}")
-//    public ResponseEntity<Response> addDisc(@PathVariable Long bandId, @PathVariable Long memberId) {
-//
-//        return ResponseEntity.ok(
-//                Response.builder()
-//                        .timeStamp(LocalDateTime.now())
-//                        .data(Map.of("listado: ", bandService.addMember(bandId, memberId )))
-//                        .message("Membros add")
-//                        .status(HttpStatus.OK)
-//                        .statusCode(HttpStatus.OK.value())
-//                        .build()
-//        );
-//    }
+
+    @PostMapping("/upload-file")
+    public String uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getName());
+        System.out.println(file.getContentType());
+        System.out.println(file.getSize());
+
+//        String Path_Directory = "C:\\Users\\William\\Documents\\Estudos\\SpringBoot\\Music4All\\src\\main\\resources\\image";
+        String Path_Directory = new ClassPathResource("static/image").getFile().getAbsolutePath();
+        Files.copy(file.getInputStream(), Paths.get(Path_Directory + File.separator + file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+
+
+        return "Sucesso";
+    }
 }

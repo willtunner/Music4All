@@ -17,6 +17,4 @@ public interface BandRepository extends JpaRepository<Band, Long> {
 
     //List<Employee> findFirst2ByDeptOrderBySalaryDesc(String state);
     List<Band> findTop5ByStateOrderByLikeAsc(String state);
-
-    Optional<Band> findByLogo(String image);
 }

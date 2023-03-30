@@ -9,8 +9,14 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +29,24 @@ public class BandServiceImpl implements BandServiceInterface {
     private final BandRepository bandRepository;
     private final UserRepository userRepository;
 
+    @Value("${contato.disco.raiz}")
+    private String raiz;
+
+    @Value("${contato.disco.diretorio-fotos}")
+    private String diretoriosFotos;
+
+
     @Override
-    public Band saveBand(Band band) throws MessagingException, IOException {
+    public Band saveBand(Band band, MultipartFile file) throws MessagingException, IOException {
+//        Path diretorioPath = Paths.get(this.raiz, this.diretoriosFotos);
+//        Path arquivoPath = diretorioPath.resolve(file.getOriginalFilename());
+
+//        try {
+//            Files.createDirectories(diretorioPath);
+//            file.transferTo(arquivoPath.toFile());
+//        } catch (IOException e) {
+//            throw new RuntimeException("Problemas na tentativa de salvar arquivo");
+//        }
         return bandRepository.save(band);
 
     }

@@ -20,5 +20,7 @@ public class Response {
     protected String reason;
     protected String message;
     protected String developeMessage;
+
     protected Map<?, ?> data;
+    private String downloadURL;
 }
