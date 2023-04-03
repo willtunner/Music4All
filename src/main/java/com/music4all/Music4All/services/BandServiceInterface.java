@@ -11,10 +11,13 @@ import java.util.Optional;
 
 public interface BandServiceInterface {
 
-    Band saveBand(Band band, MultipartFile foto) throws MessagingException, IOException;
+    Band saveBand(Band band) throws MessagingException, IOException;
     Band getBand(String bandName);
     Band addMember(Long bandId, Long memberId);
-    Band updateBand(Long id, List<User> users);
+    Band like(Long bandId, Long userId);
+    Band dislike(Long bandId, Long userId);
+    Band favourite(Long bandId, Long userId);
+//    Band updateBand(Long id, List<User> users);
     List<Band> getBandByName(String name);
     List<Band> getBandByState(String state);
 

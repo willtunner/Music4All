@@ -19,16 +19,31 @@ public class Band {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    @Lob
-    private byte[] data;
-    private String fileName;
-    private String fileType;
+    private String image;
 
-    @Column(name = "likes", columnDefinition = "integer default 0")
-    private Integer like = 0;
+    @ManyToMany
+    @JoinTable(
+            name = "like_band",
+            joinColumns = @JoinColumn(name = "band_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<User> like;
 
-    @Column(columnDefinition = "integer default 0")
-    private Integer dislike = 0;
+    @ManyToMany
+    @JoinTable(
+            name = "dislike_band",
+            joinColumns = @JoinColumn(name = "band_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<User> dislike;
+
+    @ManyToMany
+    @JoinTable(
+            name = "favourite_band",
+            joinColumns = @JoinColumn(name = "band_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<User> favourite;
 
     private String genre;
 
@@ -73,26 +88,9 @@ public class Band {
         members.add(member);
     }
 
+    public void likeUsers(User user) { like.add(user); }
 
-    public Band(String name, byte[] data, String fileName, String fileType, Integer like, Integer dislike,
-                String genre, String country, String city, String state, LocalDateTime created, Boolean deleted,
-                List<User> musics, List<Disc> discs, Long creatorId, User creator, List<User> members) {
-        this.name = name;
-        this.data = data;
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.like = like;
-        this.dislike = dislike;
-        this.genre = genre;
-        this.country = country;
-        this.city = city;
-        this.state = state;
-        this.created = created;
-        this.deleted = deleted;
-        this.musics = musics;
-        this.discs = discs;
-        this.creatorId = creatorId;
-        this.creator = creator;
-        this.members = members;
-    }
+    public void dislikeUsers(User user) { dislike.add(user); }
+
+    public void favouriteUsers(User user) { favourite.add(user); }
 }

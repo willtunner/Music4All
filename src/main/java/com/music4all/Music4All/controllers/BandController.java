@@ -30,10 +30,10 @@ public class BandController {
     private final BandServiceImpl bandService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Band band, @RequestParam("file") MultipartFile file) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> saveUser(@RequestBody Band band) throws MessagingException, MessagingException, IOException {
 
         String downloadURL = "";
-        Band bandSaved = bandService.saveBand(band, file);
+        Band bandSaved = bandService.saveBand(band);
         downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("band/image/")
                 .path(bandSaved.getId().toString())
@@ -149,7 +149,7 @@ public class BandController {
         );
     }
 
-    @PutMapping("/{bandId}/members/{memberId}")
+    @PutMapping("/{bandId}/like/{userId}")
     public ResponseEntity<Response> addMusics(@PathVariable Long bandId, @PathVariable Long memberId) {
 
         return ResponseEntity.ok(
@@ -157,6 +157,48 @@ public class BandController {
                         .timeStamp(LocalDateTime.now())
                         .data(Map.of("listado: ", bandService.addMember(bandId, memberId )))
                         .message("Membros add")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @PutMapping("/{bandId}/like/{userId}")
+    public ResponseEntity<Response> likeBand(@PathVariable Long bandId, @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("liked: ", bandService.like(bandId, userId )))
+                        .message("Like User ok!")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @PutMapping("/{bandId}/like/{userId}")
+    public ResponseEntity<Response> dislike(@PathVariable Long bandId, @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("liked: ", bandService.dislike(bandId, userId )))
+                        .message("Like User ok!")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .build()
+        );
+    }
+
+    @PutMapping("/{userId}/favourite/{bandId}")
+    public ResponseEntity<Response> favouriteBand(@PathVariable Long bandId, @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(LocalDateTime.now())
+                        .data(Map.of("liked: ", bandService.favourite(bandId, userId )))
+                        .message("Like User ok!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()

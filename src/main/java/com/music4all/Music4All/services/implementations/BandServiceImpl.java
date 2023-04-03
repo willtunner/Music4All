@@ -37,18 +37,8 @@ public class BandServiceImpl implements BandServiceInterface {
 
 
     @Override
-    public Band saveBand(Band band, MultipartFile file) throws MessagingException, IOException {
-//        Path diretorioPath = Paths.get(this.raiz, this.diretoriosFotos);
-//        Path arquivoPath = diretorioPath.resolve(file.getOriginalFilename());
-
-//        try {
-//            Files.createDirectories(diretorioPath);
-//            file.transferTo(arquivoPath.toFile());
-//        } catch (IOException e) {
-//            throw new RuntimeException("Problemas na tentativa de salvar arquivo");
-//        }
+    public Band saveBand(Band band) throws MessagingException, IOException {
         return bandRepository.save(band);
-
     }
 
     @Override
@@ -65,16 +55,27 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
-    public Band updateBand(Long id, List<User> musics) {
-//        Band band = bandRepository.findById(id).orElse(null);
+    public Band like(Long bandId, Long userId) {
+        Band band = bandRepository.findById(bandId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        band.likeUsers(user);
+        return band;
+    }
 
-//        if (!musics.isEmpty()) {
-//            if (band != null) {
-//                band.setMusics(musics);
-//            }
-//        }
+    @Override
+    public Band dislike(Long bandId, Long userId) {
+        Band band = bandRepository.findById(bandId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        band.dislikeUsers(user);
+        return band;
+    }
 
-        return null;
+    @Override
+    public Band favourite(Long bandId, Long userId) {
+        Band band = bandRepository.findById(bandId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        band.favouriteUsers(user);
+        return band;
     }
 
     @Override
