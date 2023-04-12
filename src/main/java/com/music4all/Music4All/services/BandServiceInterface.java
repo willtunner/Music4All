@@ -25,5 +25,6 @@ public interface BandServiceInterface {
     Boolean deleteBand(Long idBand);
     List<Band> getBands();
     Optional<Band> getBandById(Long idBand);
+
     Band updateBand(Band band);
 }

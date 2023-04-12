@@ -149,7 +149,7 @@ public class BandController {
         );
     }
 
-    @PutMapping("/{bandId}/like/{userId}")
+    @PutMapping("/{bandId}/add/{userId}")
     public ResponseEntity<Response> addMusics(@PathVariable Long bandId, @PathVariable Long memberId) {
 
         return ResponseEntity.ok(
@@ -177,7 +177,7 @@ public class BandController {
         );
     }
 
-    @PutMapping("/{bandId}/like/{userId}")
+    @PutMapping("/{bandId}/dislike/{userId}")
     public ResponseEntity<Response> dislike(@PathVariable Long bandId, @PathVariable Long userId) {
 
         return ResponseEntity.ok(
