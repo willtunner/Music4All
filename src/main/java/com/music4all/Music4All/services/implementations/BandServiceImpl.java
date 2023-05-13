@@ -5,18 +5,17 @@ import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.BandRepository;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.BandServiceInterface;
+import com.music4all.Music4All.services.imageService.ImageBandLogoSeriveImpl;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +27,7 @@ public class BandServiceImpl implements BandServiceInterface {
 
     private final BandRepository bandRepository;
     private final UserRepository userRepository;
+    private final ImageBandLogoSeriveImpl imageBandLogoService;
 
     @Value("${contato.disco.raiz}")
     private String raiz;
@@ -47,9 +47,9 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
-    public Band addMember(Long bandId, Long memberId) {
+    public Band addMember(Long bandId, Long userId) {
         Band band = bandRepository.findById(bandId).orElse(null);
-        User member = userRepository.findById(memberId).orElse(null);
+        User member = userRepository.findById(userId).orElse(null);
         band.addMembers(member);
         return bandRepository.save(band);
     }
@@ -117,7 +117,14 @@ public class BandServiceImpl implements BandServiceInterface {
     @Override
     public List<Band> getBands() {
         log.info("List all bands ");
-        return bandRepository.findAll();
+        List<Band> bands = bandRepository.findAll();
+        List<Band> bandList = new ArrayList<>();
+
+        bands.forEach((res) -> {
+            res.setImage(this.urlImage(res.getId()));
+            bandList.add(res);
+        });
+        return bandList;
     }
 
     @Override
@@ -133,5 +140,16 @@ public class BandServiceImpl implements BandServiceInterface {
         }
         log.info("Band DON'T update");
         return band;
+    }
+
+    public String urlImage(Long idBand) {
+        var image = imageBandLogoService.getLogoByIdBand(idBand);
+        System.out.println(createImageLink(image.getFilename()));
+        return createImageLink(image.getFilename());
+    }
+
+    private String createImageLink(String filename) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/band/band-logo/" + filename).toUriString();
     }
 }

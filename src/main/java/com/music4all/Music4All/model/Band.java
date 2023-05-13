@@ -93,4 +93,6 @@ public class Band {
     public void dislikeUsers(User user) { dislike.add(user); }
 
     public void favouriteUsers(User user) { favourite.add(user); }
+
+
 }

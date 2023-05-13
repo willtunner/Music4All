@@ -2,7 +2,10 @@ package com.music4all.Music4All.services;
 
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
+import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
+import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import jakarta.mail.MessagingException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +23,5 @@ public interface UserServiceInterface {
     List<User>getAllUsers();
     Optional<User> getUserById(Long idUser);
     User updateUser(User user);
+
 }

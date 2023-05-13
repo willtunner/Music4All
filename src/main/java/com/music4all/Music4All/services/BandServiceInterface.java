@@ -13,7 +13,7 @@ public interface BandServiceInterface {
 
     Band saveBand(Band band) throws MessagingException, IOException;
     Band getBand(String bandName);
-    Band addMember(Long bandId, Long memberId);
+    Band addMember(Long bandId, Long userId);
     Band like(Long bandId, Long userId);
     Band dislike(Long bandId, Long userId);
     Band favourite(Long bandId, Long userId);

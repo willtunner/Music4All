@@ -1,16 +1,23 @@
 package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.model.User;
+import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
+import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import com.music4all.Music4All.repositoriees.UserRepository;
+import com.music4all.Music4All.repositoriees.imageRepository.UserProfileImageRepository;
 import com.music4all.Music4All.services.UserServiceInterface;
+import com.music4all.Music4All.services.imageService.ImageUserProfileServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +30,8 @@ public class UserServiceImpl implements UserServiceInterface {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ImageUserProfileServiceImpl imageUserProfileService;
+
 
     @Override
     public User saveUser(User user) throws MessagingException {
@@ -54,8 +63,16 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     public List<User> getAllUsers() {
         log.info("List all users ");
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        List<User> usersList = new ArrayList<>();
+
+        users.forEach((res) -> {
+            res.setImage(this.urlImage(res.getId()));
+            usersList.add(res);
+        });
+        return usersList;
     }
+
 
     @Override
     public Optional<User> getUserById(Long idUser) {
@@ -72,4 +89,20 @@ public class UserServiceImpl implements UserServiceInterface {
         log.info("User DON'T update");
         return user;
     }
+
+    public String urlImage(Long userId) {
+
+        if(imageUserProfileService.getImageProfileById(userId) != null) {
+            var image = imageUserProfileService.getImageProfileById(userId);
+            return createImageLink(image.getFilename());
+        }
+        return null;
+
+    }
+
+    private String createImageLink(String filename) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/user/image-profile/" + filename).toUriString();
+    }
+
 }
