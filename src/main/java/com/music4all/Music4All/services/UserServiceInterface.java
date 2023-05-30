@@ -1,5 +1,6 @@
 package com.music4all.Music4All.services;
 
+import com.music4all.Music4All.dtos.UserDTO;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
@@ -21,7 +22,7 @@ public interface UserServiceInterface {
 
     List<User> getUsers(String name);
     List<User>getAllUsers();
-    Optional<User> getUserById(Long idUser);
+    UserDTO getUserById(Long idUser);
     User updateUser(User user);
 
 }

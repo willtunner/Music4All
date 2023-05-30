@@ -1,12 +1,15 @@
 package com.music4all.Music4All.services.imageService;
 
 import com.music4all.Music4All.exceptions.ImageNotFoundException;
+import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.imagesModels.UserImageProfile;
+import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.repositoriees.imageRepository.UserProfileImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -15,6 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class ImageUserProfileServiceImpl implements  ImageUserProfile{
     private final UserProfileImageRepository userProfileImageRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserImageProfile getImageByName(String filename) {
@@ -28,18 +32,28 @@ public class ImageUserProfileServiceImpl implements  ImageUserProfile{
 
     @Override
     public Optional<UserImageProfile> saveUserImageProfile(MultipartFile file, Long userId) throws Exception {
-        if(userProfileImageRepository.existsByFilename(file.getOriginalFilename())) {
-            log.info("Image {} have already existed", file.getOriginalFilename());
-            Optional<UserImageProfile> image = userProfileImageRepository.findByFilename(file.getOriginalFilename());
-            return image;
-        }
+
 
         UserImageProfile imageSaved = new UserImageProfile();
         imageSaved.setFilename(file.getOriginalFilename());
         imageSaved.setData(file.getBytes());
         imageSaved.setMineType(file.getContentType());
         imageSaved.setUserId(userId);
+        //Salvar link
+        imageSaved.setLink(createImageLink(file.getOriginalFilename()));
 
-        return Optional.of(userProfileImageRepository.save(imageSaved));
+        UserImageProfile image = Optional.of(userProfileImageRepository.save(imageSaved)).orElseThrow();
+
+        // atualizar o user image com id da image
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setImageProfileId(image.getId());
+        userRepository.save(user);
+
+        return Optional.of(image);
+    }
+
+    private String createImageLink(String filename) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/user/image-profile/" + filename).toUriString();
     }
 }

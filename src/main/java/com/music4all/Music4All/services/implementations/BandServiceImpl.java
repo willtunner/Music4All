@@ -6,6 +6,7 @@ import com.music4all.Music4All.repositoriees.BandRepository;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.BandServiceInterface;
 import com.music4all.Music4All.services.imageService.ImageBandLogoSeriveImpl;
+import com.music4all.Music4All.services.imageService.ImageUserProfileServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class BandServiceImpl implements BandServiceInterface {
     private final BandRepository bandRepository;
     private final UserRepository userRepository;
     private final ImageBandLogoSeriveImpl imageBandLogoService;
+
+    private final ImageUserProfileServiceImpl imageUserProfileService;
 
     @Value("${contato.disco.raiz}")
     private String raiz;
@@ -122,6 +125,14 @@ public class BandServiceImpl implements BandServiceInterface {
 
         bands.forEach((res) -> {
             res.setImage(this.urlImage(res.getId()));
+//             res.getMembers().forEach(response -> {
+//                //response.setImage(this.imageUserProfileService.getImageProfileById(response.getId()).toString());
+//
+//
+//            });
+
+            List<User> users = res.getMembers();
+
             bandList.add(res);
         });
         return bandList;

@@ -1,5 +1,6 @@
 package com.music4all.Music4All.model.imagesModels;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.music4all.Music4All.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,12 +14,13 @@ import java.time.LocalDateTime;
 public class UserImageProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String filename;
 
     @Column(name = "mime_type")
     private String mineType;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private byte[] data;
 
     @Column(name = "user_id")
@@ -30,4 +32,6 @@ public class UserImageProfile {
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
+
+    private String link;
 }

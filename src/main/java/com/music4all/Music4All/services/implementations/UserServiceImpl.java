@@ -1,5 +1,6 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.dtos.UserDTO;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import com.music4all.Music4All.model.imagesModels.UserImageProfile;
@@ -64,19 +65,32 @@ public class UserServiceImpl implements UserServiceInterface {
     public List<User> getAllUsers() {
         log.info("List all users ");
         List<User> users = userRepository.findAll();
-        List<User> usersList = new ArrayList<>();
-
-        users.forEach((res) -> {
-            res.setImage(this.urlImage(res.getId()));
-            usersList.add(res);
-        });
-        return usersList;
+        return users;
     }
 
-
     @Override
-    public Optional<User> getUserById(Long idUser) {
-        return userRepository.findById(idUser);
+    public UserDTO getUserById(Long idUser) {
+        UserDTO userDTO = new UserDTO();
+        User user = userRepository.findById(idUser).orElseThrow();
+
+        userDTO.setId(user.getId());
+        userDTO.setNome(user.getName());
+        userDTO.setAge(user.getAge());
+        userDTO.setCellphone(user.getCellphone());
+
+        if (user.getImage() == null) {
+            userDTO.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+        }else {
+            userDTO.setLinkImageProfile(user.getImage().getLink());
+        }
+
+        userDTO.setBands(user.getBands());
+        userDTO.setFollowing(user.getFollowing());
+        userDTO.setFollowers(user.getFollowers());
+        userDTO.setGender(user.getGender());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setCreated(user.getCreated());
+        return userDTO;
     }
 
     @Override

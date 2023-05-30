@@ -1,6 +1,7 @@
 package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +18,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
     @Id
@@ -27,7 +27,12 @@ public class User {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    private String image;
+    @Column(name = "image_profile_id")
+    private Long imageProfileId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_profile_id", insertable=false, updatable=false)
+    private UserImageProfile image;
 
     @Email
     @NotBlank(message = "{email.not.blank}")
@@ -62,10 +67,6 @@ public class User {
     // Um usuário pode seguir vários usuários - following
     @OneToMany(mappedBy="from")
     private List<Followers> following;
-
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
-//    @JsonManagedReference
-//    private List<Band> band;
 
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
