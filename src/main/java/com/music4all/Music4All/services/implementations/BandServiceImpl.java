@@ -1,5 +1,6 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.dtos.BandDTO;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.BandRepository;
@@ -118,22 +119,35 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
-    public List<Band> getBands() {
+    public List<BandDTO> getBands() {
         log.info("List all bands ");
         List<Band> bands = bandRepository.findAll();
-        List<Band> bandList = new ArrayList<>();
+        List<BandDTO> bandList = new ArrayList<>();
 
-        bands.forEach((res) -> {
-            res.setImage(this.urlImage(res.getId()));
-//             res.getMembers().forEach(response -> {
-//                //response.setImage(this.imageUserProfileService.getImageProfileById(response.getId()).toString());
-//
-//
-//            });
+        bands.forEach((band) -> {
+            BandDTO bandDTO = new BandDTO();
 
-            List<User> users = res.getMembers();
+            bandDTO.setId(band.getId());
+            bandDTO.setName(band.getName());
+            bandDTO.setGenre(band.getGenre());
+            bandDTO.setCountry(band.getCountry());
+            bandDTO.setCity(band.getCity());
+            bandDTO.setState(band.getState());
+            bandDTO.setCreatorId(band.getCreatorId());
+            if (band.getLogo() == null) {
+                bandDTO.setLogo("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+            } else {
+                bandDTO.setLogo(band.getLogo().getLink());
+            }
 
-            bandList.add(res);
+            bandDTO.setCreated(band.getCreated());
+            bandDTO.setLike(band.getLike());
+            bandDTO.setDislike(band.getDislike());
+            bandDTO.setFavourite(band.getFavourite());
+            bandDTO.setDiscs(band.getDiscs());
+            bandDTO.setMembers(band.getMembers());
+
+            bandList.add(bandDTO);
         });
         return bandList;
     }

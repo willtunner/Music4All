@@ -209,21 +209,6 @@ public class BandController {
         );
     }
 
-//    @PostMapping("/upload-file")
-//    public String uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-//
-//        System.out.println(file.getOriginalFilename());
-//        System.out.println(file.getName());
-//        System.out.println(file.getContentType());
-//        System.out.println(file.getSize());
-//
-//        String Path_Directory = new ClassPathResource("static/image").getFile().getAbsolutePath();
-//        Files.copy(file.getInputStream(), Paths.get(Path_Directory + File.separator + file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-//
-//
-//        return "Sucesso";
-//    }
-
     @PostMapping("/{bandId}/save-logo")
     public SaveResult upload(@RequestPart MultipartFile file, @PathVariable Long bandId) throws Exception {
 

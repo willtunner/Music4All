@@ -32,6 +32,6 @@ public class ImageBandLogo {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
 
-
+    private String link;
 
 }

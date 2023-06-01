@@ -1,5 +1,7 @@
 package com.music4all.Music4All.model;
 import com.fasterxml.jackson.annotation.*;
+import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
+import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -19,9 +21,16 @@ public class Band {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    private String image;
+    //private String image;
 
-    @ManyToMany
+    @Column(name = "logo_band_id")
+    private Long logoBandId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "logo_band_id", insertable=false, updatable=false)
+    private ImageBandLogo logo;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "like_band",
             joinColumns = @JoinColumn(name = "band_id"),
@@ -61,9 +70,6 @@ public class Band {
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<User> musics;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference

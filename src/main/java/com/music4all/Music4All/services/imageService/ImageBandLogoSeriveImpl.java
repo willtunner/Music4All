@@ -30,11 +30,6 @@ public class ImageBandLogoSeriveImpl implements ImageBandLogoServiceInterface {
 
     @Override
     public Optional<ImageBandLogo> save(MultipartFile file, Long bandId) throws Exception {
-        if(bandImageLogoRepository.existsByFilename(file.getOriginalFilename())) {
-            log.info("Image {} have already existed", file.getOriginalFilename());
-            Optional<ImageBandLogo> image = bandImageLogoRepository.findByFilename(file.getOriginalFilename());
-            return image;
-        }
 
         ImageBandLogo imageSaved = new ImageBandLogo();
         imageSaved.setFilename(file.getOriginalFilename());

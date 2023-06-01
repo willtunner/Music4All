@@ -21,7 +21,7 @@ public interface UserServiceInterface {
     Boolean deleteUser(Long idUser);
 
     List<User> getUsers(String name);
-    List<User>getAllUsers();
+    List<UserDTO>getAllUsers();
     UserDTO getUserById(Long idUser);
     User updateUser(User user);
 

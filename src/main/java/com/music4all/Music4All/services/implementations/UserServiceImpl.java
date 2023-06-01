@@ -62,10 +62,32 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         log.info("List all users ");
         List<User> users = userRepository.findAll();
-        return users;
+        List<UserDTO> userDtos = new ArrayList<>();
+
+        users.forEach((user -> {
+            UserDTO userDto = new UserDTO();
+            userDto.setNome(user.getName());
+            userDto.setId(user.getId());
+            userDto.setGender(user.getGender());
+            userDto.setAge(user.getAge());
+            userDto.setEmail(user.getEmail());
+            userDto.setCreated(user.getCreated());
+            userDto.setFollowers(user.getFollowers());
+            userDto.setFollowing(user.getFollowing());
+            userDto.setBands(user.getBands());
+            userDto.setCellphone(user.getCellphone());
+            if (user.getImage() == null) {
+                userDto.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+            }else {
+                userDto.setLinkImageProfile(user.getImage().getLink());
+            }
+            userDtos.add(userDto);
+        }));
+
+        return userDtos;
     }
 
     @Override
@@ -80,7 +102,7 @@ public class UserServiceImpl implements UserServiceInterface {
 
         if (user.getImage() == null) {
             userDTO.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
-        }else {
+        } else {
             userDTO.setLinkImageProfile(user.getImage().getLink());
         }
 
@@ -95,7 +117,7 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public User updateUser(User user) {
-        if ( user.getId() != null) {
+        if ( user.getId() != null ) {
             log.info("User {} saved success", user.getName());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
@@ -104,19 +126,18 @@ public class UserServiceImpl implements UserServiceInterface {
         return user;
     }
 
-    public String urlImage(Long userId) {
-
-        if(imageUserProfileService.getImageProfileById(userId) != null) {
-            var image = imageUserProfileService.getImageProfileById(userId);
-            return createImageLink(image.getFilename());
-        }
-        return null;
-
-    }
-
-    private String createImageLink(String filename) {
-        return ServletUriComponentsBuilder.fromCurrentRequest()
-                .replacePath("/user/image-profile/" + filename).toUriString();
-    }
+//    public String urlImage(Long userId) {
+//
+//        if (imageUserProfileService.getImageProfileById(userId) != null) {
+//            var image = imageUserProfileService.getImageProfileById(userId);
+//            return createImageLink(image.getFilename());
+//        }
+//        return null;
+//    }
+//
+//    private String createImageLink(String filename) {
+//        return ServletUriComponentsBuilder.fromCurrentRequest()
+//                .replacePath("/user/image-profile/" + filename).toUriString();
+//    }
 
 }
