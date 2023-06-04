@@ -51,6 +51,7 @@ public class ImageUserProfileServiceImpl implements  ImageUserProfile{
             // atualizar o user image com id da image
             User user = userRepository.findById(userId).orElseThrow();
             user.setImageProfileId(image.getId());
+            user.setUrlImageProfile(image.getLink());
             userRepository.save(user);
 
             return Optional.of(image);
@@ -69,6 +70,7 @@ public class ImageUserProfileServiceImpl implements  ImageUserProfile{
             // atualizar o user image com id da image
             User user = userRepository.findById(userId).orElseThrow();
             user.setImageProfileId(image.getId());
+            user.setUrlImageProfile(image.getLink());
             userRepository.save(user);
 
             return Optional.of(image);

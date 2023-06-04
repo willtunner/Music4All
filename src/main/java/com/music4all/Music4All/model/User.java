@@ -73,4 +73,6 @@ public class User {
     @JsonIgnore
     List<Band> bands;
 
+    private String urlImageProfile;
+
 }
