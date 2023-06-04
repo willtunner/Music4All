@@ -32,6 +32,7 @@ public class User {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_profile_id", insertable=false, updatable=false)
+    @JsonIgnore
     private UserImageProfile image;
 
     @Email

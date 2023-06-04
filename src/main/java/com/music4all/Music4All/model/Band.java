@@ -28,6 +28,7 @@ public class Band {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "logo_band_id", insertable=false, updatable=false)
+    @JsonIgnore
     private ImageBandLogo logo;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -99,6 +100,8 @@ public class Band {
     public void dislikeUsers(User user) { dislike.add(user); }
 
     public void favouriteUsers(User user) { favourite.add(user); }
+
+
 
 
 }

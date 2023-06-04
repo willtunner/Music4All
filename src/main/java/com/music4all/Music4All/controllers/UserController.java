@@ -124,8 +124,8 @@ public class UserController {
             Optional<UserImageProfile> image = imageUserProfileService.saveUserImageProfile(file, userId);
             return SaveResult.builder()
                     .error(false)
-                    .filename(file.getOriginalFilename())
-                    .link(createImageLink(file.getOriginalFilename()))
+                    .filename(image.get().getFilename())
+                    .link(image.get().getLink())
                     .idBand(userId)
                     .build();
 

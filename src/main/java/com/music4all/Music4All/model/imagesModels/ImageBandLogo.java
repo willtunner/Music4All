@@ -14,7 +14,7 @@ public class ImageBandLogo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String filename;
 
     @Column(name = "mime_type")

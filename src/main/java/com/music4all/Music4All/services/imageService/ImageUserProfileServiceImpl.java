@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -33,23 +34,47 @@ public class ImageUserProfileServiceImpl implements  ImageUserProfile{
     @Override
     public Optional<UserImageProfile> saveUserImageProfile(MultipartFile file, Long userId) throws Exception {
 
+        //Verifica se o usuário já tem imagem
+        //ImageBandLogo imageBandLogo = bandImageLogoRepository.findByBandId(bandId);
+        UserImageProfile imageProfile = userProfileImageRepository.findImageProfileById(userId);
 
-        UserImageProfile imageSaved = new UserImageProfile();
-        imageSaved.setFilename(file.getOriginalFilename());
-        imageSaved.setData(file.getBytes());
-        imageSaved.setMineType(file.getContentType());
-        imageSaved.setUserId(userId);
-        //Salvar link
-        imageSaved.setLink(createImageLink(file.getOriginalFilename()));
+        if (imageProfile != null) {
+            imageProfile.setFilename(file.getOriginalFilename()  + LocalDateTime.now());
+            imageProfile.setData(file.getBytes());
+            imageProfile.setMineType(file.getContentType());
+            imageProfile.setUserId(userId);
+            //Salvar link
+            imageProfile.setLink(createImageLink(imageProfile.getFilename()));
 
-        UserImageProfile image = Optional.of(userProfileImageRepository.save(imageSaved)).orElseThrow();
+            UserImageProfile image = Optional.of(userProfileImageRepository.save(imageProfile)).orElseThrow();
 
-        // atualizar o user image com id da image
-        User user = userRepository.findById(userId).orElseThrow();
-        user.setImageProfileId(image.getId());
-        userRepository.save(user);
+            // atualizar o user image com id da image
+            User user = userRepository.findById(userId).orElseThrow();
+            user.setImageProfileId(image.getId());
+            userRepository.save(user);
 
-        return Optional.of(image);
+            return Optional.of(image);
+
+        } else {
+            UserImageProfile imageSaved = new UserImageProfile();
+            imageSaved.setFilename(file.getOriginalFilename() + LocalDateTime.now());
+            imageSaved.setData(file.getBytes());
+            imageSaved.setMineType(file.getContentType());
+            imageSaved.setUserId(userId);
+            //Salvar link
+            imageSaved.setLink(createImageLink(imageSaved.getFilename()));
+
+            UserImageProfile image = Optional.of(userProfileImageRepository.save(imageSaved)).orElseThrow();
+
+            // atualizar o user image com id da image
+            User user = userRepository.findById(userId).orElseThrow();
+            user.setImageProfileId(image.getId());
+            userRepository.save(user);
+
+            return Optional.of(image);
+        }
+
+
     }
 
     private String createImageLink(String filename) {
