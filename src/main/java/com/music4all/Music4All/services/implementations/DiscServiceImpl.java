@@ -1,6 +1,8 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.Disc;
+import com.music4all.Music4All.repositoriees.BandRepository;
 import com.music4all.Music4All.repositoriees.DiscRepository;
 import com.music4all.Music4All.services.DiscServiceInterface;
 import jakarta.mail.MessagingException;
@@ -19,11 +21,17 @@ import java.util.Optional;
 public class DiscServiceImpl implements DiscServiceInterface {
 
     private final DiscRepository discRepository;
+    private final BandRepository bandRepository;
 
     @Override
     public Disc saveDisc(Disc disc) throws MessagingException {
         log.info("Saving new Disc {} to the database", disc.getName());
-        return discRepository.save(disc);
+        Disc discSaved = discRepository.save(disc);
+        Band bandDisc = bandRepository.findById(discSaved.getBandId()).orElse(null);
+        bandDisc.addDisc(discSaved);
+        bandRepository.save(bandDisc);
+
+        return discSaved;
     }
 
     @Override

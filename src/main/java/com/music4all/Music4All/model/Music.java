@@ -35,7 +35,8 @@ public class Music {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime created = LocalDateTime.now();
 
-    private LocalDate releaseDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime releaseDate;
 
     @Column(name = "likes", columnDefinition = "integer default 0")
     private Integer like = 0;
@@ -63,4 +64,13 @@ public class Music {
             inverseJoinColumns = @JoinColumn(name = "user_music_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<User> membersByMusic;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private byte[] music;
+
+    @Column(name = "mime_type")
+    private String mineType;
+
+    private String musicLink;
+
 }

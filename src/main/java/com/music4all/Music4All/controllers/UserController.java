@@ -145,8 +145,4 @@ public class UserController {
                 .body(body);
     }
 
-    private String createImageLink(String filename) {
-        return ServletUriComponentsBuilder.fromCurrentRequest()
-                .replacePath("/user/image-profile/" + filename).toUriString();
-    }
 }

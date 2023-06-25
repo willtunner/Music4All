@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MusicRepository extends JpaRepository<Music, Long> {
 
-    Music findByNameMusic(String name);
+    Music findByNameMusic(String nameMusic);
 
     @Query(value = "select * from music where name_music ilike :name% ", nativeQuery = true)
     List<Music> findByName(@Param("name") String name);

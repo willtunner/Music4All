@@ -51,7 +51,7 @@ public class Disc {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<User> members = new HashSet<>();
 
-    @OneToMany(mappedBy = "disc")
+    @OneToMany()
     private List<Music> musics;
 
     @Column(name = "band_id")

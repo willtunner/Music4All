@@ -95,6 +95,10 @@ public class Band {
         members.add(member);
     }
 
+    public void addDisc(Disc disc) {
+        discs.add(disc);
+    }
+
     public void likeUsers(User user) { like.add(user); }
 
     public void dislikeUsers(User user) { dislike.add(user); }

@@ -8,8 +8,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Sort;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +34,8 @@ public class MusicServiceImpl implements MusicServiceInterface {
     }
 
     @Override
-    public Music getMusic(String bandMusic) {
-        return null;
+    public Music getMusic(String nameMusic) {
+        return musicRepository.findByNameMusic(nameMusic);
     }
 
     @Override
@@ -79,5 +82,28 @@ public class MusicServiceImpl implements MusicServiceInterface {
         log.info("Music DON'T update");
         return music;
     }
+
+    public Music saveMusic(String nameMusic, String duration, MultipartFile file, String lyric, Integer favorite, String description, Integer like, Integer auditions, Long discId) throws IOException {
+        Music music = new Music();
+        music.setNameMusic(nameMusic);
+        music.setMusic(file.getBytes());
+        music.setDuration(duration);
+        music.setLyric(lyric);
+        music.setFavorite(favorite);
+        music.setDescription(description);
+        music.setLike(like);
+        music.setAuditions(auditions);
+        music.setDiscId(discId);
+        music.setMineType(file.getContentType());
+        music.setMusicLink(createImageLink(music.getNameMusic() + "-" + LocalDateTime.now()));
+        music.setReleaseDate(LocalDateTime.now());
+        return musicRepository.save(music);
+    }
+
+    private String createImageLink(String filename) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/music/name-music/" + filename).toUriString();
+    }
+
 
 }
