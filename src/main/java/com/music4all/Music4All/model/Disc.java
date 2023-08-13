@@ -1,7 +1,6 @@
 package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -49,9 +48,10 @@ public class Disc {
             joinColumns = @JoinColumn(name = "disc_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
     public Set<User> members = new HashSet<>();
 
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "disc")
     private List<Music> musics;
 
     @Column(name = "band_id")

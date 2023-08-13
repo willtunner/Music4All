@@ -21,8 +21,6 @@ public class Band {
     @NotBlank(message = "{name.not.blank}")
     private String name;
 
-    //private String image;
-
     @Column(name = "logo_band_id")
     private Long logoBandId;
 
@@ -89,6 +87,7 @@ public class Band {
             joinColumns = @JoinColumn(name = "band_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
     private List<User> members;
 
     public void addMembers(User member) {

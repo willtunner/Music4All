@@ -1,6 +1,8 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.model.Disc;
 import com.music4all.Music4All.model.Music;
+import com.music4all.Music4All.repositoriees.DiscRepository;
 import com.music4all.Music4All.repositoriees.MusicRepository;
 import com.music4all.Music4All.services.MusicServiceInterface;
 import jakarta.mail.MessagingException;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +26,20 @@ import java.util.Optional;
 public class MusicServiceImpl implements MusicServiceInterface {
 
     private final MusicRepository musicRepository;
+    private final DiscRepository discRepository;
 
     @Override
     public Music saveMusic(Music music) throws MessagingException {
         if(music != null) {
             log.info("Saving new music {} to the database", music.getNameMusic());
-            return musicRepository.save(music);
+            //todo: Melhorar essa parte de vincular musica ao disco
+            Music musicSaved = musicRepository.save(music);
+            List<Music> musics = new ArrayList<>();
+            musics.add(musicSaved);
+            Optional<Disc> disc = discRepository.findById(music.getDiscId());
+            disc.get().setMusics(musics);
+            discRepository.save(disc.get());
+            return musicSaved;
         }
         return null;
     }
