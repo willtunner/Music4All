@@ -1,11 +1,9 @@
 package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.dtos.UserDTO;
+import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
 import com.music4all.Music4All.model.User;
-import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
-import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import com.music4all.Music4All.repositoriees.UserRepository;
-import com.music4all.Music4All.repositoriees.imageRepository.UserProfileImageRepository;
 import com.music4all.Music4All.services.UserServiceInterface;
 import com.music4all.Music4All.services.imageService.ImageUserProfileServiceImpl;
 import jakarta.mail.MessagingException;
@@ -14,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.util.ArrayList;
@@ -116,28 +112,27 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public User updateUser(User user) {
-        if ( user.getId() != null ) {
-            log.info("User {} saved success", user.getName());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            return userRepository.save(user);
-        }
-        log.info("User DON'T update");
-        return user;
-    }
+    public User updateUser(UserDtoRecord userDto, Long id) {
+        if ( userDto.name() != null ) {
+            Optional<User> user = userRepository.findById(id);
 
-//    public String urlImage(Long userId) {
-//
-//        if (imageUserProfileService.getImageProfileById(userId) != null) {
-//            var image = imageUserProfileService.getImageProfileById(userId);
-//            return createImageLink(image.getFilename());
-//        }
-//        return null;
-//    }
-//
-//    private String createImageLink(String filename) {
-//        return ServletUriComponentsBuilder.fromCurrentRequest()
-//                .replacePath("/user/image-profile/" + filename).toUriString();
-//    }
+            if(user.isPresent()) {
+                log.info("User {} saved success", userDto.name());
+                if (!userDto.password().isEmpty()) user.get().setPassword(passwordEncoder.encode(userDto.password()));
+                if (!userDto.name().isEmpty()) user.get().setName(userDto.name());
+                if (!userDto.email().isEmpty()) user.get().setEmail(userDto.email());
+                if (!userDto.cellphone().isEmpty()) user.get().setCellphone(userDto.cellphone());
+                if (!userDto.gender().isEmpty()) user.get().setGender(userDto.gender());
+                if (userDto.age() != null && userDto.age() > 0) user.get().setAge(userDto.age());
+                return userRepository.save(user.get());
+            } else {
+                return null;
+            }
+        } else {
+            log.info("User DON'T update");
+            return null;
+        }
+
+    }
 
 }

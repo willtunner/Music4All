@@ -26,7 +26,4 @@ public class UserDTO {
     private List<Followers> following;
     private List<Band> bands;
 
-
-
-
 }

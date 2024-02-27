@@ -1,11 +1,10 @@
 package com.music4all.Music4All.controllers;
 
+import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
 import com.music4all.Music4All.model.User;
-import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.model.response.SaveResult;
-import com.music4all.Music4All.repositoriees.imageRepository.UserProfileImageRepository;
 import com.music4all.Music4All.services.imageService.ImageUserProfileServiceImpl;
 import com.music4all.Music4All.services.implementations.UserServiceImpl;
 import jakarta.mail.MessagingException;
@@ -19,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -105,11 +103,11 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @RequestBody  @Valid User user) {
+    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @RequestBody  @Valid UserDtoRecord user) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("update: ", userService.updateUser(user)))
+                        .data(Map.of("update: ", userService.updateUser(user, id)))
                         .message("Usuário atualizado!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
