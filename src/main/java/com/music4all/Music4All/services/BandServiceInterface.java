@@ -1,6 +1,7 @@
 package com.music4all.Music4All.services;
 
 import com.music4all.Music4All.dtos.BandDTO;
+import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import jakarta.mail.MessagingException;
@@ -27,5 +28,5 @@ public interface BandServiceInterface {
     List<BandDTO> getBands();
     Optional<Band> getBandById(Long idBand);
 
-    Band updateBand(Band band);
+    Band updateBand(BandDotRecord bandDto, Long id);
 }

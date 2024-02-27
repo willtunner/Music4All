@@ -51,7 +51,7 @@ public class BandController {
 //                .path(bandSaved.getId().toString())
 //                .toUriString();
         if (bandSaved.getLogo() == null) {
-            downloadURL =  "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png";
+            downloadURL =  "https://cdn-icons-png.flaticon.com/512/2748/2748558.png";
         } else {
             downloadURL = bandSaved.getLogo().getLink();
         }
@@ -69,7 +69,7 @@ public class BandController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getBands() throws InterruptedException {
+    public ResponseEntity<Response> getAllBands() throws InterruptedException {
         //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()
@@ -152,13 +152,13 @@ public class BandController {
         );
     }
 
-    @PutMapping
-    public ResponseEntity<Response> addMusics(@RequestBody Band band) {
+    @PutMapping("{id}")
+    public ResponseEntity<Response> addMusics(@PathVariable("id") Long id, @RequestBody BandDotRecord bandDto) {
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.updateBand(band)))
+                        .data(Map.of("listado: ", bandService.updateBand(bandDto, id)))
                         .message("Banda Atualizada por id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

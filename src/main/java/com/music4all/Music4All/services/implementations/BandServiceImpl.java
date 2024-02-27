@@ -1,6 +1,7 @@
 package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.dtos.BandDTO;
+import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.BandRepository;
@@ -135,7 +136,7 @@ public class BandServiceImpl implements BandServiceInterface {
             bandDTO.setState(band.getState());
             bandDTO.setCreatorId(band.getCreatorId());
             if (band.getLogo() == null) {
-                bandDTO.setLogo("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+                bandDTO.setLogo("https://cdn-icons-png.flaticon.com/512/2748/2748558.png");
             } else {
                 bandDTO.setLogo(band.getLogo().getLink());
             }
@@ -158,13 +159,32 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
-    public Band updateBand(Band band) {
-        if ( band.getId() != null) {
-            log.info("Band {} updated success", band.getName());
-            return bandRepository.save(band);
+    public Band updateBand(BandDotRecord bandDto, Long id) {
+        if ( id != null) {
+            Optional<Band> bandOptional = bandRepository.findById(id);
+            if (bandOptional.isPresent()) {
+                Band bandSave = bandOptional.get();
+
+                //todo: Fazer tratamento para somente os menbros da banda atualizar a própria banda
+
+                if (bandDto.name() != null && !bandDto.name().isEmpty()) bandSave.setName(bandDto.name());
+                if (bandDto.state() != null && !bandDto.state().isEmpty()) bandSave.setState(bandDto.state());
+                if (bandDto.country() != null && !bandDto.country().isEmpty()) bandSave.setCountry(bandDto.country());
+                if (bandDto.city() != null && !bandDto.city().isEmpty()) bandSave.setCity(bandDto.city());
+                if (bandDto.genre() != null && !bandDto.genre().isEmpty()) bandSave.setGenre(bandDto.genre());
+
+                log.info("Band {} updated success", bandDto.name());
+                return bandRepository.save(bandSave);
+            } else {
+                log.info("Band DON'T update");
+                return null;
+            }
+        } else {
+            log.info("Band DON'T update");
+            return null;
         }
-        log.info("Band DON'T update");
-        return band;
+
+
     }
 
     public String urlImage(Long idBand) {
