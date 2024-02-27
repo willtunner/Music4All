@@ -1,5 +1,6 @@
 package com.music4all.Music4All.controllers;
 
+import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import com.music4all.Music4All.model.response.Response;
@@ -34,14 +35,26 @@ public class BandController {
     private final ImageBandLogoSeriveImpl imageBandLogoService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Band band) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> saveUser(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
 
         String downloadURL = "";
-        Band bandSaved = bandService.saveBand(band);
-        downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("band/image/")
-                .path(bandSaved.getId().toString())
-                .toUriString();
+        Band newBand = new Band();
+        newBand.setName(band.name());
+        newBand.setCity(band.city());
+        newBand.setCountry(band.country());
+        newBand.setGenre(band.genre());
+        newBand.setState(band.state());
+
+        Band bandSaved = bandService.saveBand(newBand);
+//        downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("band/image/")
+//                .path(bandSaved.getId().toString())
+//                .toUriString();
+        if (bandSaved.getLogo() == null) {
+            downloadURL =  "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png";
+        } else {
+            downloadURL = bandSaved.getLogo().getLink();
+        }
 
         return ResponseEntity.ok(
                 Response.builder()

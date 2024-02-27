@@ -52,7 +52,7 @@ public class Music {
     @ManyToOne
     @JoinColumn(name = "disc_id", insertable = false, updatable = false)
     @JsonIgnore
-    @JsonBackReference
+//    @JsonBackReference
     private Disc disc;
 
     @ManyToMany(fetch = FetchType.EAGER)

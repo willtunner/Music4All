@@ -87,7 +87,7 @@ public class Band {
             joinColumns = @JoinColumn(name = "band_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonBackReference
+//    @JsonBackReference
     private List<User> members;
 
     public void addMembers(User member) {

@@ -48,7 +48,7 @@ public class Disc {
             joinColumns = @JoinColumn(name = "disc_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonBackReference
+//    @JsonBackReference
     public Set<User> members = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "disc")
@@ -57,7 +57,7 @@ public class Disc {
     @Column(name = "band_id")
     private Long bandId;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
+//    @JsonBackReference
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
 
