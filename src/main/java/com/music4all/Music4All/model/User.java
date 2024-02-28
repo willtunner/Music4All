@@ -41,6 +41,7 @@ public class User {
     private String email;
 
     @NotBlank(message = "{senha.not.blank}")
+    @JsonIgnore
     private String password;
 
     private String cellphone;

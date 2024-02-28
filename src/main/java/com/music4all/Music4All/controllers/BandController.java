@@ -186,7 +186,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("liked: ", bandService.like(bandId, userId )))
+                        .data(Map.of("Band liked: ", bandService.like(bandId, userId )))
                         .message("Like User ok!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

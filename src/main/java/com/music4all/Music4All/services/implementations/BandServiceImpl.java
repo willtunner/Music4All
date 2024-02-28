@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -55,23 +53,38 @@ public class BandServiceImpl implements BandServiceInterface {
     public Band addMember(Long bandId, Long userId) {
         Band band = bandRepository.findById(bandId).orElse(null);
         User member = userRepository.findById(userId).orElse(null);
-        band.addMembers(member);
-        return bandRepository.save(band);
+        if (band != null && member != null) {
+            band.addMembers(member);
+            return bandRepository.save(band);
+        }
+        return null;
     }
 
     @Override
-    public Band like(Long bandId, Long userId) {
-        Band band = bandRepository.findById(bandId).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
-        band.likeUsers(user);
-        return band;
+    public Object like(Long bandId, Long userId) {
+        Map<String, Object> keyValue = new HashMap<>();
+        Optional<Band> bandOptional = bandRepository.findById(bandId);
+        if (bandOptional.isPresent()) {
+            Boolean checkExistUserLikeBand = bandRepository.findLikeUserBand(bandId, userId);
+            if (checkExistUserLikeBand) {
+                bandRepository.dislikeUserBand(bandId, userId);
+                keyValue.put("liked", false);
+            } else {
+                bandRepository.userLikeBand(bandId, userId);
+                keyValue.put("liked", true);
+            }
+            return keyValue;
+        }
+        return null;
     }
 
     @Override
     public Band dislike(Long bandId, Long userId) {
         Band band = bandRepository.findById(bandId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
-        band.dislikeUsers(user);
+
+        if (band != null && user != null) band.dislikeUsers(user);
+
         return band;
     }
 
@@ -79,8 +92,13 @@ public class BandServiceImpl implements BandServiceInterface {
     public Band favourite(Long bandId, Long userId) {
         Band band = bandRepository.findById(bandId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
-        band.favouriteUsers(user);
-        return band;
+
+        if ( band != null && user != null ) {
+            band.favouriteUsers(user);
+            return band;
+        }
+
+        return null;
     }
 
     @Override
