@@ -1,9 +1,7 @@
 package com.music4all.Music4All.controllers;
 
 import com.music4all.Music4All.model.Disc;
-import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
-import com.music4all.Music4All.repositoriees.DiscRepository;
 import com.music4all.Music4All.services.implementations.DiscServiceImpl;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
