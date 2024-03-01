@@ -8,7 +8,7 @@ import jakarta.mail.MessagingException;
 import java.util.List;
 
 public interface UserServiceInterface {
-    User saveUser(User user) throws MessagingException;
+    User createUser(User user) throws MessagingException;
 
     Boolean deleteUser(Long idUser);
 

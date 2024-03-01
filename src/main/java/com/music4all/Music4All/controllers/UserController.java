@@ -49,11 +49,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody @Valid User user) throws MessagingException, MessagingException {
+    public ResponseEntity<Response> createUser(@RequestBody @Valid User user) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("user", userService.saveUser(user)))
+                        .data(Map.of("user", userService.createUser(user)))
                         .message("Usuário criado")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())

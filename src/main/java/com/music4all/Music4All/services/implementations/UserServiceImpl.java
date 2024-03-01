@@ -2,6 +2,7 @@ package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.dtos.UserDTO;
 import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
+import com.music4all.Music4All.enun.EmailType;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.UserServiceInterface;
@@ -10,6 +11,7 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +30,15 @@ public class UserServiceImpl implements UserServiceInterface {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ImageUserProfileServiceImpl imageUserProfileService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
 
     @Override
-    public User saveUser(User user) throws MessagingException {
+    public User createUser(User user) throws MessagingException {
         log.info("Saving new user {} to the database", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        emailService.sendEmail(user, EmailType.CREATE_USER);
         return userRepository.save(user);
     }
 
