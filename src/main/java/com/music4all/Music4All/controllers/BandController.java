@@ -35,35 +35,17 @@ public class BandController {
     private final ImageBandLogoSeriveImpl imageBandLogoService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> saveBand(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
 
-        String downloadURL = "";
-        Band newBand = new Band();
-        newBand.setName(band.name());
-        newBand.setCity(band.city());
-        newBand.setCountry(band.country());
-        newBand.setGenre(band.genre());
-        newBand.setState(band.state());
 
-        Band bandSaved = bandService.saveBand(newBand);
-//        downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("band/image/")
-//                .path(bandSaved.getId().toString())
-//                .toUriString();
-        if (bandSaved.getLogo() == null) {
-            downloadURL =  "https://cdn-icons-png.flaticon.com/512/2748/2748558.png";
-        } else {
-            downloadURL = bandSaved.getLogo().getLink();
-        }
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandSaved))
+                        .data(Map.of("band", bandService.saveBand(band)))
                         .message("Banda criada com sucesso!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
-                        .downloadURL(downloadURL)
                         .build()
         );
     }

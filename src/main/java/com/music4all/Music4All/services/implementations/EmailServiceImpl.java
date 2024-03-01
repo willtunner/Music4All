@@ -2,9 +2,11 @@ package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.enun.EmailType;
 import com.music4all.Music4All.enun.StatusEmail;
+import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.Email;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.EmailRepository;
+import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.EmailServiceInterface;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,6 +31,8 @@ public class EmailServiceImpl implements EmailServiceInterface {
     private JavaMailSender emailSender;
     @Autowired
     EmailRepository emailRepository;
+    @Autowired
+    UserRepository userRepository;
     @Value("${emails.limit}")
     private Integer limitError;
     @Autowired
@@ -73,14 +77,14 @@ public class EmailServiceImpl implements EmailServiceInterface {
         Context thymeleafContext = new Context();
         Map<String, Object> templateModel = new HashMap<>();
 
-        DateTimeFormatter dataHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
-        DateTimeFormatter data = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formatDateTime = emailSend.getSendDateEmail().format(dataHora);
-        String formatDate = emailSend.getSendDateEmail().format(data);
-        String formatHour = emailSend.getSendDateEmail().format(hora);
+//        DateTimeFormatter dataHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        DateTimeFormatter data = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String formatDateTime = emailSend.getSendDateEmail().format(dataHora);
+//        String formatDate = emailSend.getSendDateEmail().format(data);
+//        String formatHour = emailSend.getSendDateEmail().format(hora);
 
-        System.out.println(" DataHora: " + formatDateTime + " Data : " + formatDate + " Hora : " + formatHour);
+        //System.out.println(" DataHora: " + formatDateTime + " Data : " + formatDate + " Hora : " + formatHour);
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -93,7 +97,9 @@ public class EmailServiceImpl implements EmailServiceInterface {
                     }
                     break;
                 case CREATE_BAND:
-
+                    if (entity instanceof Band band) {
+                        newBandCreateEmail(band, helper, thymeleafContext, templateModel, message, emailSend);
+                    }
                     break;
                 case CREATE_DISC:
 
@@ -115,23 +121,63 @@ public class EmailServiceImpl implements EmailServiceInterface {
 
     private void createNewUserEmail(User user, MimeMessageHelper helper, Context thymeleafContext,
                                     Map<String, Object> templateModel, MimeMessage message, Email emailSend) throws MessagingException {
+        String titleMessage = "Obrigado por se cadastrar no Music4All";
+        String body = "A equipe do Music4All gostaria de expressar nosso sincero agradecimento por se cadastrar em nossa plataforma! Estamos entusiasmados por tê-lo(a) conosco.\n" +
+                "\n" +
+                "                        O Music4All é mais do que uma plataforma de música; é uma comunidade vibrante onde músicos independentes como você podem compartilhar sua paixão, descobrir novas músicas e se conectar com outros artistas de todo o mundo.\n" +
+                "\n" +
+                "                        Estamos ansiosos para vê-lo(a) explorar todas as funcionalidades que o Music4All oferece. Seja para promover sua música, encontrar colaboradores para novos projetos ou simplesmente se conectar com outros amantes da música, estamos aqui para apoiá-lo(a) em sua jornada musical.\n" +
+                "\n" +
+                "                        Se surgir alguma dúvida ou se precisar de ajuda, não hesite em entrar em contato conosco. Estamos sempre disponíveis para ajudar.";
         helper.setFrom(fromEmail);
         helper.setTo(user.getEmail());
-        helper.setSubject("Obrigado por se cadastrar no Music4All");
+        helper.setSubject(titleMessage);
 
         templateModel.put("NAME", user.getName());
+        templateModel.put("emailType", EmailType.CREATE_USER);
 
         thymeleafContext.setVariables(templateModel);
-        String htmlBody = thymeleafTemplateEngine.process("emailSend.html", thymeleafContext);
-//        String htmlBody = thymeleafTemplateEngine.process("shared/teste.html", thymeleafContext);
+        String htmlBody = thymeleafTemplateEngine.process("emailNewUser.html", thymeleafContext);
 
         helper.setText(htmlBody, true);
-
 
         emailSender.send(message);
 
         //  ADICIONA O 3° STATUS ENVIADO O EMAIL E SALVA NO BANCO
         emailSend.setStatusEmail(StatusEmail.SENT);
+        emailSend.setEmailFrom(fromEmail);
+        emailSend.setEmailTo(user.getEmail());
+        emailSend.setSubject(titleMessage);
+        emailSend.setText(body);
+        emailRepository.save(emailSend);
+        System.out.println("Terceiro Status do Id "+emailSend.getEmailId() + ": " + emailSend.getStatusEmail());
+    }
+
+    private void newBandCreateEmail(Band band, MimeMessageHelper helper, Context thymeleafContext,
+                                    Map<String, Object> templateModel, MimeMessage message, Email emailSend) throws MessagingException {
+        String titleMessage = "Obrigado! a sua banda "+ band.getName() + " foi cadastrada com sucesso!";
+        helper.setFrom(fromEmail);
+        User user = userRepository.findById(band.getCreatorId()).get();
+        helper.setTo(user.getEmail());
+        helper.setSubject(titleMessage);
+
+        templateModel.put("bandName", band.getName());
+        templateModel.put("creatorName", user.getName());
+        templateModel.put("emailType", EmailType.CREATE_BAND);
+
+        thymeleafContext.setVariables(templateModel);
+        String htmlBody = thymeleafTemplateEngine.process("emailNewBand.html", thymeleafContext);
+
+        helper.setText(htmlBody, true);
+
+        emailSender.send(message);
+
+        //  ADICIONA O 3° STATUS ENVIADO O EMAIL E SALVA NO BANCO
+        emailSend.setStatusEmail(StatusEmail.SENT);
+        emailSend.setEmailFrom(fromEmail);
+        emailSend.setEmailTo(user.getEmail());
+        emailSend.setSubject(titleMessage);
+        emailSend.setText(titleMessage);
         emailRepository.save(emailSend);
         System.out.println("Terceiro Status do Id "+emailSend.getEmailId() + ": " + emailSend.getStatusEmail());
     }

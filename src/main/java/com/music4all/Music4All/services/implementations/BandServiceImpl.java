@@ -2,6 +2,7 @@ package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.dtos.BandDTO;
 import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
+import com.music4all.Music4All.enun.EmailType;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.BandRepository;
@@ -13,6 +14,7 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +31,8 @@ public class BandServiceImpl implements BandServiceInterface {
     private final BandRepository bandRepository;
     private final UserRepository userRepository;
     private final ImageBandLogoSeriveImpl imageBandLogoService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     private final ImageUserProfileServiceImpl imageUserProfileService;
 
@@ -40,8 +44,16 @@ public class BandServiceImpl implements BandServiceInterface {
 
 
     @Override
-    public Band saveBand(Band band) throws MessagingException, IOException {
-        return bandRepository.save(band);
+    public Band saveBand(BandDotRecord band) throws MessagingException, IOException {
+        Band newBand = new Band();
+        newBand.setName(band.name());
+        newBand.setCity(band.city());
+        newBand.setCountry(band.country());
+        newBand.setGenre(band.genre());
+        newBand.setState(band.state());
+        newBand.setCreatorId(band.creatorId());
+        this.emailService.sendEmail(newBand, EmailType.CREATE_BAND);
+        return bandRepository.save(newBand);
     }
 
     @Override
