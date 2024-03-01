@@ -38,6 +38,7 @@ public class User {
     @Email
     @NotBlank(message = "{email.not.blank}")
     @Email(message = "{email.not.valid}")
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "{senha.not.blank}")
@@ -76,4 +77,13 @@ public class User {
 
     private String urlImageProfile;
 
+    @JsonGetter(value = "password")
+    public String getPwd() {
+        return null;
+    }
+
+    @JsonSetter(value = "password")
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
