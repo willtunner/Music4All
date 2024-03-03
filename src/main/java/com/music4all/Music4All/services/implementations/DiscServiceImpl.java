@@ -24,7 +24,7 @@ public class DiscServiceImpl implements DiscServiceInterface {
     private final BandRepository bandRepository;
 
     @Override
-    public Disc saveDisc(Disc disc) throws MessagingException {
+    public Disc createDisc(Disc disc) throws MessagingException {
         log.info("Saving new Disc {} to the database", disc.getName());
         Disc discSaved = discRepository.save(disc);
         Band bandDisc = bandRepository.findById(discSaved.getBandId()).orElse(null);

@@ -2,6 +2,7 @@ package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -24,9 +25,6 @@ public class Disc {
 
     @NotBlank(message = "{name.not.blank}")
     private String name;
-
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime created = LocalDateTime.now();
 
     private String description;
 
@@ -56,9 +54,13 @@ public class Disc {
 
     @Column(name = "band_id")
     private Long bandId;
+
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JsonBackReference
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
+    @JsonManagedReference
     private Band band;
+
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime created = LocalDateTime.now();
 
 }

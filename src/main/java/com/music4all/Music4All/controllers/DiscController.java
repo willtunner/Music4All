@@ -21,11 +21,11 @@ public class DiscController {
     private final DiscServiceImpl discService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Disc disc) throws MessagingException, MessagingException {
+    public ResponseEntity<Response> createDisc(@RequestBody Disc disc) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Saved Disc", discService.saveDisc(disc)))
+                        .data(Map.of("Saved Disc", discService.createDisc(disc)))
                         .message("Disco criado")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -34,7 +34,7 @@ public class DiscController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getBands() throws InterruptedException {
+    public ResponseEntity<Response> getDiscs() throws InterruptedException {
         //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()

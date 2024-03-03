@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface DiscServiceInterface {
 
-    Disc saveDisc(Disc disc) throws MessagingException;
+    Disc createDisc(Disc disc) throws MessagingException;
     Disc getDisc(String disc);
     Boolean deleteDisc(Long idDisc);
 
