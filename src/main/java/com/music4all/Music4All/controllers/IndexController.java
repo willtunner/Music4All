@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
 public class IndexController {
     private final StorageService storageService;
     @Autowired
@@ -29,7 +28,7 @@ public class IndexController {
         this.storageService = storageService;
     }
 
-    @GetMapping
+    @GetMapping("home")
     public String getHomepage(Model model) {
         // Define a data de expiração para o link prescrito
         Date expiration = new Date(System.currentTimeMillis() + 3600000); // Expira em 1 hora
@@ -57,7 +56,13 @@ public class IndexController {
             }
         }
         model.addAttribute("objectIndexList", objectIndexList);
-        return "index";
+        return "home";
+    }
+
+    @GetMapping("login")
+    public String loginPage() {
+
+        return "login";
     }
 
     @PostMapping
