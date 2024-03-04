@@ -26,15 +26,13 @@ public class EmailSendController {
 
     @PostMapping("/send-simple")
     public String sendMail(@RequestParam(value = "file", required = false)MultipartFile[] file, String to, String[] cc, String subject, String body) {
-        return emailService.sendMail(file, to, cc, subject, body);
+        return emailService.sendMailAttachment(file, to, cc, subject, body);
     }
 
     @PostMapping("/sending-email")
     public ResponseEntity<Email> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
         Email emailModel = new Email();
         BeanUtils.copyProperties(emailDto, emailModel);
-        User user = userRepository.findById(1L).get();
-//        emailService.sendEmailApi2(user);
         return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
     }
 
@@ -42,7 +40,7 @@ public class EmailSendController {
     public ResponseEntity<Email> sendingEmailTest(@RequestBody @Valid EmailDto emailDto) {
         Email emailModel = new Email();
         BeanUtils.copyProperties(emailDto, emailModel);
-        emailService.sendEmailApi(emailModel);
+        emailService.sendEmailApiTest(emailModel);
         return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
     }
 

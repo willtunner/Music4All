@@ -49,7 +49,7 @@ public class EmailServiceImpl implements EmailServiceInterface {
 
     private final String fromEmail = "greencodebr@gmail.com";
     @Override
-    public String sendMail(MultipartFile[] file, String to, String[] cc, String subject, String body) {
+    public String sendMailAttachment(MultipartFile[] file, String to, String[] cc, String subject, String body) {
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -76,24 +76,9 @@ public class EmailServiceImpl implements EmailServiceInterface {
     }
 
     public <T> void sendEmail(T entity, Email email) {
-//        Email emailSend = new Email();
-//        emailSend.setStatusEmail(StatusEmail.PROCESSING);
-//        emailSend.setSendDateEmail(LocalDateTime.now());
-//        emailSend.setEmailType(typeEmail);
-//        emailRepository.save(emailSend);
-
         // Usando Thymeleaf
         Context thymeleafContext = new Context();
         Map<String, Object> templateModel = new HashMap<>();
-
-//        DateTimeFormatter dataHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
-//        DateTimeFormatter data = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        String formatDateTime = emailSend.getSendDateEmail().format(dataHora);
-//        String formatDate = emailSend.getSendDateEmail().format(data);
-//        String formatHour = emailSend.getSendDateEmail().format(hora);
-
-        //System.out.println(" DataHora: " + formatDateTime + " Data : " + formatDate + " Hora : " + formatHour);
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -117,14 +102,11 @@ public class EmailServiceImpl implements EmailServiceInterface {
 
                     break;
                 default:
-
             }
 
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-
-
 
     }
 
@@ -200,7 +182,7 @@ public class EmailServiceImpl implements EmailServiceInterface {
         System.out.println("Terceiro Status do Id "+emailSend.getEmailId() + ": " + emailSend.getStatusEmail());
     }
 
-    public Email sendEmailApi(Email emailModel) {
+    public Email sendEmailApiTest(Email emailModel) {
 
         //ADICIONA O 2° STATUS PROCESSANDO O EMAIL E SALVA NO BANCO
         emailModel.setStatusEmail(StatusEmail.PROCESSING);
