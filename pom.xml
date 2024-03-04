@@ -108,6 +108,12 @@
 			<artifactId>aws-java-sdk-dynamodb</artifactId>
 			<version>1.12.671</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>8.22.0</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

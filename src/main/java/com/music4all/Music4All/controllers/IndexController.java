@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +22,7 @@ public class IndexController {
     private final StorageService storageService;
     @Autowired
     private AmazonS3 amazonS3;
+
     @Autowired
     public IndexController(StorageService storageService) {
         this.storageService = storageService;
@@ -70,6 +70,7 @@ public class IndexController {
         storageService.uploadFile(file);
         return "redirect:/home";
     }
+
 }
 
 
