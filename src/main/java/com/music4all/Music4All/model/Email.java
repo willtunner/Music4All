@@ -27,4 +27,5 @@ public class Email {
     private LocalDateTime sendDateEmail;
     private StatusEmail statusEmail = StatusEmail.WAITING;
     private EmailType emailType;
+    private Long contextId;
 }

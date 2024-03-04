@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface EmailRepository extends JpaRepository<Email, Long> {
-    @Query(nativeQuery = true, value = "select * from tb_email  where status_email !=2 AND status_email !=1  AND deleted = false AND count <= 5 ORDER BY email_id DESC LIMIT :limitError")
+    @Query(nativeQuery = true, value = "select * from tb_email e where e.status_email != 2  and e.deleted = false and count < 5 order by email_id desc limit :limitError")
     List<Email> findByStatusEmail(Integer limitError);
 
 }

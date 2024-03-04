@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BandServiceInterface {
 
-    Band saveBand(BandDotRecord band) throws MessagingException, IOException;
+    Band createBand(BandDotRecord band) throws MessagingException, IOException;
     Band getBand(String bandName);
     Band addMember(Long bandId, Long userId);
     Object like(Long bandId, Long userId);

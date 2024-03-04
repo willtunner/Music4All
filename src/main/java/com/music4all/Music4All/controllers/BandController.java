@@ -42,7 +42,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandService.saveBand(band)))
+                        .data(Map.of("band", bandService.createBand(band)))
                         .message("Banda criada com sucesso!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())

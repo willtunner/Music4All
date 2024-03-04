@@ -5,6 +5,8 @@ import com.music4all.Music4All.enun.StatusEmail;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.Email;
 import com.music4all.Music4All.model.User;
+import com.music4all.Music4All.repositoriees.BandRepository;
+import com.music4all.Music4All.repositoriees.DiscRepository;
 import com.music4all.Music4All.repositoriees.EmailRepository;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.EmailServiceInterface;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
@@ -23,7 +26,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EmailServiceImpl implements EmailServiceInterface {
@@ -33,6 +38,10 @@ public class EmailServiceImpl implements EmailServiceInterface {
     EmailRepository emailRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BandRepository bandRepository;
+    @Autowired
+    DiscRepository discRepository;
     @Value("${emails.limit}")
     private Integer limitError;
     @Autowired
@@ -66,12 +75,12 @@ public class EmailServiceImpl implements EmailServiceInterface {
         }
     }
 
-    public <T> void sendEmail(T entity, EmailType typeEmail) {
-        Email emailSend = new Email();
-        emailSend.setStatusEmail(StatusEmail.PROCESSING);
-        emailSend.setSendDateEmail(LocalDateTime.now());
-        emailSend.setEmailType(typeEmail);
-        emailRepository.save(emailSend);
+    public <T> void sendEmail(T entity, Email email) {
+//        Email emailSend = new Email();
+//        emailSend.setStatusEmail(StatusEmail.PROCESSING);
+//        emailSend.setSendDateEmail(LocalDateTime.now());
+//        emailSend.setEmailType(typeEmail);
+//        emailRepository.save(emailSend);
 
         // Usando Thymeleaf
         Context thymeleafContext = new Context();
@@ -90,15 +99,15 @@ public class EmailServiceImpl implements EmailServiceInterface {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            switch(emailSend.getEmailType()) {
+            switch(email.getEmailType()) {
                 case CREATE_USER:
                     if (entity instanceof User user) {
-                        createNewUserEmail(user, helper, thymeleafContext, templateModel, message, emailSend);
+                        createNewUserEmail(user, helper, thymeleafContext, templateModel, message, email);
                     }
                     break;
                 case CREATE_BAND:
                     if (entity instanceof Band band) {
-                        newBandCreateEmail(band, helper, thymeleafContext, templateModel, message, emailSend);
+                        newBandCreateEmail(band, helper, thymeleafContext, templateModel, message, email);
                     }
                     break;
                 case CREATE_DISC:
@@ -117,6 +126,15 @@ public class EmailServiceImpl implements EmailServiceInterface {
 
 
 
+    }
+
+    public void saveEmail(Long entityId, EmailType emailType) {
+        Email emailSend = new Email();
+        emailSend.setStatusEmail(StatusEmail.PROCESSING);
+        emailSend.setSendDateEmail(LocalDateTime.now());
+        emailSend.setEmailType(emailType);
+        emailSend.setContextId(entityId);
+        emailRepository.save(emailSend);
     }
 
     private void createNewUserEmail(User user, MimeMessageHelper helper, Context thymeleafContext,
@@ -142,7 +160,7 @@ public class EmailServiceImpl implements EmailServiceInterface {
         helper.setText(htmlBody, true);
 
         emailSender.send(message);
-
+        System.out.println("Email enviado para :" + fromEmail);
         //  ADICIONA O 3° STATUS ENVIADO O EMAIL E SALVA NO BANCO
         emailSend.setStatusEmail(StatusEmail.SENT);
         emailSend.setEmailFrom(fromEmail);
@@ -250,5 +268,43 @@ public class EmailServiceImpl implements EmailServiceInterface {
         } finally {
             return emailRepository.save(emailModel);
         }
+    }
+
+    private Integer count = 0;
+    @Scheduled(fixedDelay = 20*1000) // 20s
+    public void sendEmail( ) {
+        List<Email> emails = emailRepository.findByStatusEmail(limitError);
+
+        System.out.println("Enviando Emails "+ ++count);
+
+        for(Email email : emails ){
+
+            switch (email.getEmailType()){
+                case CREATE_USER:
+                    if (email.getContextId() != null) {
+                        Optional<User> user = userRepository.findById(email.getContextId());
+                        user.ifPresent(value -> sendEmail(value, email));
+                    }
+                    break;
+                case CREATE_BAND:
+                    if (email.getContextId() != null) {
+                        Optional<Band> band = bandRepository.findById(email.getContextId());
+                        band.ifPresent(value -> sendEmail(value, email));
+                    }
+                    break;
+                case CREATE_DISC:
+//                    Disc disc = discRepository.findById(email.getContextId()).get();
+//                    sendEmail(disc, email);
+                    break;
+                case RECOVER_PASSWORD:
+//                    User user2 = userRepository.findById(email.getContextId()).get();
+//                    sendEmail(user2, email);
+                    break;
+                default:
+            }
+
+        }
+
+        // System.out.println("emails = " + emails);
     }
 }

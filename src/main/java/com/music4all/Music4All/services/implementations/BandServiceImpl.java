@@ -44,7 +44,7 @@ public class BandServiceImpl implements BandServiceInterface {
 
 
     @Override
-    public Band saveBand(BandDotRecord band) throws MessagingException, IOException {
+    public Band createBand(BandDotRecord band) throws MessagingException, IOException {
         Band newBand = new Band();
         newBand.setName(band.name());
         newBand.setCity(band.city());
@@ -52,8 +52,9 @@ public class BandServiceImpl implements BandServiceInterface {
         newBand.setGenre(band.genre());
         newBand.setState(band.state());
         newBand.setCreatorId(band.creatorId());
-        this.emailService.sendEmail(newBand, EmailType.CREATE_BAND);
-        return bandRepository.save(newBand);
+        bandRepository.save(newBand);
+        this.emailService.saveEmail(newBand.getId(), EmailType.CREATE_BAND);
+        return newBand;
     }
 
     @Override

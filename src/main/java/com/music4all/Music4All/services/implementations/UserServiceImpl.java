@@ -38,8 +38,9 @@ public class UserServiceImpl implements UserServiceInterface {
     public User createUser(User user) throws MessagingException {
         log.info("Saving new user {} to the database", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        emailService.sendEmail(user, EmailType.CREATE_USER);
-        return userRepository.save(user);
+        userRepository.save(user);
+        emailService.saveEmail(user.getId(), EmailType.CREATE_USER);
+        return user;
     }
 
 
