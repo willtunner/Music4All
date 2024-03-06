@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Music 4 All | BandBridge</title>
+n
+  <script>
+    function validateFile() {
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+
+        if (!file) {
+            alert('Por favor, selecione um arquivo.');
+            return false;
+        }
+
+        if (file.type !== 'audio/mpeg') {
+            alert('Por favor, selecione um arquivo de áudio MP3.');
+            return false;
+        }
+
+        return true; // Envie o formulário se a validação passar
+    }
+  </script>
 </head>
 <body class="bg-gray-800">
 
@@ -14,9 +33,9 @@
     <h1 class="text-6xl font-extrabold text-white">Music4All, Bem vindo!</h1>
     <img class="rounded-2xl mx-auto" src="https://media.tenor.co/images/bf102e55a9e1450c15f8221c18a11ffc/tenor.gif"/>
     <div>
-      <form th:method="post" method="post" enctype="multipart/form-data" action="/">
+      <form th:method="post" method="post" enctype="multipart/form-data" action="/" onsubmit="return validateFile()">
         <label class="mx-2 text-white">Envie sua Musica:</label>
-        <input class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 rounded-xl" type="file" name="file">
+        <input class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 rounded-xl" type="file" name="file" id="fileInput">
         <button class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 my-2 text-2xl rounded-xl">Enviar</button>
       </form>
     </div>
