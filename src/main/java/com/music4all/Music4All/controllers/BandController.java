@@ -35,7 +35,7 @@ public class BandController {
     private final ImageBandLogoSeriveImpl imageBandLogoService;
 
     @PostMapping
-    public ResponseEntity<Response> saveBand(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> createBand(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
 
 
 
