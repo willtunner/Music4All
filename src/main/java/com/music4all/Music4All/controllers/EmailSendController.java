@@ -1,9 +1,7 @@
 package com.music4all.Music4All.controllers;
 
-import com.music4all.Music4All.dtos.EmailDto;
-import com.music4all.Music4All.model.Band;
+import com.music4all.Music4All.dtos.EmailDTO;
 import com.music4all.Music4All.model.Email;
-import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.implementations.EmailServiceImpl;
 import jakarta.validation.Valid;
@@ -30,14 +28,14 @@ public class EmailSendController {
     }
 
     @PostMapping("/sending-email")
-    public ResponseEntity<Email> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
+    public ResponseEntity<Email> sendingEmail(@RequestBody @Valid EmailDTO emailDto) {
         Email emailModel = new Email();
         BeanUtils.copyProperties(emailDto, emailModel);
         return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
     }
 
     @PostMapping("/sending-email-test")
-    public ResponseEntity<Email> sendingEmailTest(@RequestBody @Valid EmailDto emailDto) {
+    public ResponseEntity<Email> sendingEmailTest(@RequestBody @Valid EmailDTO emailDto) {
         Email emailModel = new Email();
         BeanUtils.copyProperties(emailDto, emailModel);
         emailService.sendEmailApiTest(emailModel);
