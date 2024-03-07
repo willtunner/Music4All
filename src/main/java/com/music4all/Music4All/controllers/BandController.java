@@ -1,7 +1,6 @@
 package com.music4all.Music4All.controllers;
 
 import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
-import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.model.response.SaveResult;
@@ -27,7 +26,6 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("/band")
-//@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
 public class BandController {
@@ -42,8 +40,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band", bandService.createBand(band)))
-                        .message("Banda criada com sucesso!")
+                        .data(Map.of("band created", bandService.createBand(band)))
+                        .message("Band created success!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
                         .build()
@@ -52,12 +50,11 @@ public class BandController {
 
     @GetMapping
     public ResponseEntity<Response> getAllBands() throws InterruptedException {
-        //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("bands", bandService.getBands()))
-                        .message("Todas as bandas listadas")
+                        .data(Map.of("list all bands", bandService.getBands()))
+                        .message("Listed All bands")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -69,8 +66,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("deleted: ", bandService.deleteBand(id)))
-                        .message("Banda deletada!")
+                        .data(Map.of("deleted band", bandService.deleteBand(id)))
+                        .message("Deleted Band")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -84,8 +81,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.getBandByName(name)))
-                        .message("Banda por name!")
+                        .data(Map.of("listing by name", bandService.getBandByName(name)))
+                        .message("Listing Band by name")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -98,8 +95,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.getBandByStateByLimit(state)))
-                        .message("Bandas do seu estado mais escutadas")
+                        .data(Map.of("listing more auditions by state", bandService.getBandByStateByLimit(state)))
+                        .message("Listing more auditions by state")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -112,8 +109,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.getBandByState(state)))
-                        .message("Musica listada por estado!")
+                        .data(Map.of("listing by state", bandService.getBandByState(state)))
+                        .message("Listing Band by state")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -126,8 +123,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.getBandById(id)))
-                        .message("Banda listada por id")
+                        .data(Map.of("listed by id", bandService.getBandById(id)))
+                        .message("List Band by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -140,8 +137,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.updateBand(bandDto, id)))
-                        .message("Banda Atualizada por id")
+                        .data(Map.of("updated band", bandService.updateBand(bandDto, id)))
+                        .message("Updated band by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -149,13 +146,13 @@ public class BandController {
     }
 
     @PutMapping("/{bandId}/add/{userId}")
-    public ResponseEntity<Response> addMusics(@PathVariable Long bandId, @PathVariable Long userId) {
+    public ResponseEntity<Response> addMember(@PathVariable Long bandId, @PathVariable Long userId) {
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", bandService.addMember(bandId, userId )))
-                        .message("Membros add")
+                        .data(Map.of("add member", bandService.addMember(bandId, userId )))
+                        .message("Added a new member to the Band")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -168,7 +165,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Band liked: ", bandService.like(bandId, userId )))
+                        .data(Map.of("band liked", bandService.like(bandId, userId )))
                         .message("Like User ok!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -182,8 +179,8 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("liked: ", bandService.dislike(bandId, userId )))
-                        .message("Like User ok!")
+                        .data(Map.of("disliked", bandService.dislike(bandId, userId )))
+                        .message("Dislike user ok!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -196,7 +193,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("liked: ", bandService.favourite(bandId, userId )))
+                        .data(Map.of("liked by user", bandService.favourite(bandId, userId )))
                         .message("Like User ok!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -217,14 +214,14 @@ public class BandController {
                     .build();
 
         } catch (Exception e) {
-            log.error("Erro ao salvar imagem", e);
+            log.error("Error saving image", e);
             return SaveResult.builder().error(true).filename(file.getOriginalFilename()).build();
         }
 
     }
 
     @GetMapping("/band-logo/{filename}")
-    public ResponseEntity<Resource> retrive(@PathVariable String filename) {
+    public ResponseEntity<Resource> recoverImage(@PathVariable String filename) {
         var image = imageBandLogoService.getLogo(filename);
         var body = new ByteArrayResource(image.getData());
 

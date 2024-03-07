@@ -25,8 +25,8 @@ public class DiscController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Saved Disc", discService.createDisc(disc)))
-                        .message("Disco criado")
+                        .data(Map.of("disc created", discService.createDisc(disc)))
+                        .message("Disco criado!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
                         .build()
@@ -35,12 +35,11 @@ public class DiscController {
 
     @GetMapping
     public ResponseEntity<Response> getDiscs() throws InterruptedException {
-        //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Discs", discService.getDisc()))
-                        .message("Discos recuperados")
+                        .data(Map.of("list all discs", discService.getDisc()))
+                        .message("List all discs")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -52,8 +51,8 @@ public class DiscController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("deleted disc: ", discService.deleteDisc(id)))
-                        .message("Disco deletadao!")
+                        .data(Map.of("disc deleted: ", discService.deleteDisc(id)))
+                        .message("Disc deleted")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -62,12 +61,11 @@ public class DiscController {
 
     @GetMapping("{id}")
     public ResponseEntity<Response> findUserById(@PathVariable("id") Long id) {
-
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("discById", discService.getDiscById(id)))
-                        .message("Disco!")
+                        .data(Map.of("find disc by id", discService.getDiscById(id)))
+                        .message("Find disc by id!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -76,12 +74,11 @@ public class DiscController {
 
     @GetMapping("band/{id}")
     public ResponseEntity<Response> findDiscByBand(@PathVariable("id") Long id) {
-
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("discs", discService.getDiscsByBand(id)))
-                        .message("Disco!")
+                        .data(Map.of("disc by id", discService.getDiscsByBand(id)))
+                        .message("Find disc by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()

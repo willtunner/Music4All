@@ -13,7 +13,7 @@ public interface UserServiceInterface {
     Boolean deleteUser(Long idUser);
 
     List<User> getUsers(String name);
-    List<UserDTO>getAllUsers();
+    List<User>getAllUsers();
     UserDTO getUserById(Long idUser);
     User updateUser(UserDtoRecord user, Long id);
 

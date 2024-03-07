@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,17 +44,20 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public Boolean deleteUser(Long idUser) {
-        log.info( "Delete User by id: ", idUser );
-        userRepository.deleteById(idUser);
-        return true;
+       if (idUser != null) {
+           log.info( "Delete User by id: {}", idUser );
+           userRepository.deleteById(idUser);
+           return true;
+       } else {
+           return null;
+       }
     }
 
     @Override
     public List<User> getUsers(String name) {
         if (name != null) {
-            System.out.println("Nome do usuário: " + name);
             List<User> user = userRepository.findByName(name);
-//            log.info("Saving new user {} to the database");
+            log.info( "Find users by search nane");
             return user;
         }
 
@@ -64,32 +65,9 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<User> getAllUsers() {
         log.info("List all users ");
-        List<User> users = userRepository.findAll();
-        List<UserDTO> userDtos = new ArrayList<>();
-
-        users.forEach((user -> {
-            UserDTO userDto = new UserDTO();
-            userDto.setNome(user.getName());
-            userDto.setId(user.getId());
-            userDto.setGender(user.getGender());
-            userDto.setAge(user.getAge());
-            userDto.setEmail(user.getEmail());
-            userDto.setCreated(user.getCreated());
-            userDto.setFollowers(user.getFollowers());
-            userDto.setFollowing(user.getFollowing());
-            userDto.setBands(user.getBands());
-            userDto.setCellphone(user.getCellphone());
-            if (user.getImage() == null) {
-                userDto.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
-            }else {
-                userDto.setLinkImageProfile(user.getImage().getLink());
-            }
-            userDtos.add(userDto);
-        }));
-
-        return userDtos;
+        return userRepository.findAll();
     }
 
     @Override

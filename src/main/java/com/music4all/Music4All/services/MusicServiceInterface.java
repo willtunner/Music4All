@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MusicServiceInterface {
-    Music saveMusic(Music music) throws MessagingException;
+    Music createMusic(Music music) throws MessagingException;
     Music getMusic(String bandMusic);
 
     List<Music> getMusicByName(String name);
@@ -15,6 +15,6 @@ public interface MusicServiceInterface {
     List<Music> getMusicsMoreAuditions();
     Boolean deleteMusic(Long idMusic);
     List<Music> getAllMusics();
-    Optional<Music> getMusicById(Long idMusic);
+    Music getMusicById(Long idMusic);
     Music updateMusic(Music music);
 }

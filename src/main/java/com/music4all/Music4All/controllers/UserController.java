@@ -36,7 +36,6 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Response> getUsers() throws InterruptedException {
-        //TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
@@ -53,8 +52,8 @@ public class UserController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("user", userService.createUser(user)))
-                        .message("Usuário criado")
+                        .data(Map.of("user created", userService.createUser(user)))
+                        .message("User created")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
                         .build()
@@ -66,8 +65,8 @@ public class UserController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("deleted: ", userService.deleteUser(id)))
-                        .message("Usuário deletado!")
+                        .data(Map.of("user deleted by id", userService.deleteUser(id)))
+                        .message("User deleted!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -80,8 +79,8 @@ public class UserController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", userService.getUserById(id)))
-                        .message("Usuário listado!")
+                        .data(Map.of("user listed by id: ", userService.getUserById(id)))
+                        .message("User listed")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -90,12 +89,11 @@ public class UserController {
 
     @GetMapping("list/{name}")
     public ResponseEntity<Response> findMusicByName(@PathVariable("name") String name) {
-
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listado: ", userService.getUsers(name)))
-                        .message("Musica por name listado!")
+                        .data(Map.of("find user by name", userService.getUsers(name)))
+                        .message("Find user by name")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -107,8 +105,8 @@ public class UserController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("update: ", userService.updateUser(user, id)))
-                        .message("Usuário atualizado!")
+                        .data(Map.of("update user by id", userService.updateUser(user, id)))
+                        .message("User updated!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build()
@@ -128,7 +126,7 @@ public class UserController {
                     .build();
 
         } catch (Exception e) {
-            log.error("Erro ao salvar imagem", e);
+            log.error("Error saving image profile", e);
             return SaveResult.builder().error(true).filename(file.getOriginalFilename()).build();
         }
 

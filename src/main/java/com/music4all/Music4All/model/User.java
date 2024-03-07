@@ -10,9 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "users")
 @Data
@@ -44,7 +42,6 @@ public class User {
     private String email;
 
     @NotBlank(message = "{senha.not.blank}")
-//    @JsonIgnore
     private String password;
 
     private String cellphone;
@@ -58,12 +55,6 @@ public class User {
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
-
-    // Mudar roles
-    /*
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
-     */
 
     // Um usuário pode ter vários seguidores - followers
     @OneToMany(mappedBy="to")

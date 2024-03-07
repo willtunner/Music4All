@@ -71,7 +71,7 @@ public class Band {
     private Boolean deleted = Boolean.FALSE;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private List<Disc> discs;
 
     @Column(name = "creator_id")

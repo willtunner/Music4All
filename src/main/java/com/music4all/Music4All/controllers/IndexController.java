@@ -30,14 +30,13 @@ public class IndexController {
 
     @GetMapping("home")
     public String getHomepage(Model model) {
-        // Define a data de expiração para o link prescrito
-        Date expiration = new Date(System.currentTimeMillis() + 3600000); // Expira em 1 hora
+        int oneHourExpiration = 3600000;
+        Date expiration = new Date(System.currentTimeMillis() + oneHourExpiration);
         List<String> urlSongs = new ArrayList<>();
         List<String> fileNames = storageService.getSongFileNames();
         List<ObjectIndex> objectIndexList = new ArrayList<>();
 
         fileNames.forEach(s -> {
-            // Cria uma solicitação para gerar o URL prescrito
           GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest("musicarchives", s)
                     .withMethod(HttpMethod.GET)
                     .withExpiration(expiration);
@@ -72,8 +71,6 @@ public class IndexController {
     }
 
 }
-
-
 
 class ObjectIndex {
     private String fileName;

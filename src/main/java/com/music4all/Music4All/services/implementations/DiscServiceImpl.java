@@ -25,12 +25,12 @@ public class DiscServiceImpl implements DiscServiceInterface {
 
     @Override
     public Disc createDisc(Disc disc) throws MessagingException {
-        log.info("Saving new Disc {} to the database", disc.getName());
+        log.info("Saving new Disc '{}' to the database", disc.getName());
         Disc discSaved = discRepository.save(disc);
         Band bandDisc = bandRepository.findById(discSaved.getBandId()).orElse(null);
-        bandDisc.addDisc(discSaved);
+        if (bandDisc != null) {bandDisc.addDisc(discSaved);
         bandRepository.save(bandDisc);
-
+        }
         return discSaved;
     }
 
@@ -41,7 +41,7 @@ public class DiscServiceImpl implements DiscServiceInterface {
 
     @Override
     public Boolean deleteDisc(Long idDisc) {
-        log.info( "Delete Disc by id: ", idDisc );
+        log.info( "Delete Disc by id: {}", idDisc );
         discRepository.deleteById(idDisc);
         return true;
     }

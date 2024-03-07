@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,13 +34,6 @@ public class BandServiceImpl implements BandServiceInterface {
     private EmailServiceImpl emailService;
 
     private final ImageUserProfileServiceImpl imageUserProfileService;
-
-    @Value("${contato.disco.raiz}")
-    private String raiz;
-
-    @Value("${contato.disco.diretorio-fotos}")
-    private String diretoriosFotos;
-
 
     @Override
     public Band createBand(BandDotRecord band) throws MessagingException, IOException {
@@ -68,6 +60,7 @@ public class BandServiceImpl implements BandServiceInterface {
         User member = userRepository.findById(userId).orElse(null);
         if (band != null && member != null) {
             band.addMembers(member);
+            log.info("User {} added to band", member.getName());
             return bandRepository.save(band);
         }
         return null;
@@ -108,33 +101,29 @@ public class BandServiceImpl implements BandServiceInterface {
 
         if ( band != null && user != null ) {
             band.favouriteUsers(user);
+            log.info("User {} favorited the band", user.getName());
             return band;
         }
-
         return null;
     }
 
     @Override
     public List<Band> getBandByName(String name) {
         if (name != null) {
-            System.out.println("Nome da banda: " + name);
-            List<Band> band = bandRepository.findByName(name);
-            log.info("Saving new music {} to the database");
-            return band;
+            List<Band> bands = bandRepository.findByName(name);
+            log.info("Get bands by name {}", bands);
+            return bands;
         }
-
         return null;
     }
 
     @Override
     public List<Band> getBandByState(String state) {
         if (state != null) {
-            System.out.println("Estado da banda: " + state);
-            List<Band> band = bandRepository.findBandByState(state);
-            log.info("Listando Bandas por Estado");
-            return band;
+            List<Band> bands = bandRepository.findBandByState(state);
+            log.info("Get bands by state {}", bands);
+            return bands;
         }
-
         return null;
     }
 
@@ -152,7 +141,7 @@ public class BandServiceImpl implements BandServiceInterface {
 
     @Override
     public List<BandDTO> getBands() {
-        log.info("List all bands ");
+
         List<Band> bands = bandRepository.findAll();
         List<BandDTO> bandList = new ArrayList<>();
 
@@ -181,6 +170,8 @@ public class BandServiceImpl implements BandServiceInterface {
 
             bandList.add(bandDTO);
         });
+
+        log.info("List all bands ");
         return bandList;
     }
 
@@ -195,8 +186,6 @@ public class BandServiceImpl implements BandServiceInterface {
             Optional<Band> bandOptional = bandRepository.findById(id);
             if (bandOptional.isPresent()) {
                 Band bandSave = bandOptional.get();
-
-                //todo: Fazer tratamento para somente os menbros da banda atualizar a própria banda
 
                 if (bandDto.name() != null && !bandDto.name().isEmpty()) bandSave.setName(bandDto.name());
                 if (bandDto.state() != null && !bandDto.state().isEmpty()) bandSave.setState(bandDto.state());
@@ -220,7 +209,6 @@ public class BandServiceImpl implements BandServiceInterface {
 
     public String urlImage(Long idBand) {
         var image = imageBandLogoService.getLogoByIdBand(idBand);
-        System.out.println(createImageLink(image.getFilename()));
         return createImageLink(image.getFilename());
     }
 
