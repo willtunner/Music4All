@@ -35,6 +35,8 @@ public class User {
     @JsonIgnore
     private UserImageProfile image;
 
+    private String profileImageUrl;
+
     @Email
     @NotBlank(message = "{email.not.blank}")
     @Email(message = "{email.not.valid}")
