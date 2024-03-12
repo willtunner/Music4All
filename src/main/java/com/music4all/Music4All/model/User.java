@@ -56,11 +56,11 @@ public class User {
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private Boolean deleted = Boolean.FALSE;
 
-    // Um usuário pode ter vários seguidores - followers
+    // A user can have multiple followers - followers
     @OneToMany(mappedBy="to")
     private List<Followers> followers;
 
-    // Um usuário pode seguir vários usuários - following
+    // One user can follow multiple users - following
     @OneToMany(mappedBy="from")
     private List<Followers> following;
 

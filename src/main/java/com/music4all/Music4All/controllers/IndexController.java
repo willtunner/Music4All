@@ -46,6 +46,8 @@ public class IndexController {
         if (fileNames.size() == urlSongs.size()) {
             for (int i =0; i < fileNames.size(); i++) {
                 ObjectIndex objectIndex = new ObjectIndex();
+                String nameRefactor = fileNames.get(i).substring(fileNames.get(i).indexOf("_") + 1, fileNames.get(i).lastIndexOf("."));
+                objectIndex.setFileNameRefactor(nameRefactor);
                 objectIndex.setFileName(fileNames.get(i));
                 objectIndex.setUrlSong(urlSongs.get(i));
                 objectIndexList.add(objectIndex);
@@ -77,9 +79,20 @@ public class IndexController {
 
 class ObjectIndex {
     private String fileName;
+
+    private String fileNameRefactor;
     private String urlSong;
 
     // Getters e setters
+
+
+    public String getFileNameRefactor() {
+        return fileNameRefactor;
+    }
+
+    public void setFileNameRefactor(String fileNameRefactor) {
+        this.fileNameRefactor = fileNameRefactor;
+    }
 
     public String getFileName() {
         return fileName;
