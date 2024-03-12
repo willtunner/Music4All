@@ -38,6 +38,8 @@ public class StorageController {
         return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
     }
 
+
+
     @PostMapping("/upload-user-test")
     public User saveUser(@RequestParam(value = "file") MultipartFile file, User user) {
         String bucketName = "imageusers";

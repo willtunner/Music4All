@@ -55,6 +55,7 @@ public class StorageService {
 
     public String deleteFile(String fileName) {
         s3Client.deleteObject(bucketName, fileName);
+        System.out.println(fileName + " removed ...");
         return fileName + " removed ...";
     }
 
@@ -74,7 +75,7 @@ public class StorageService {
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(file.getBytes());
         } catch (IOException e) {
-            log.error("Error converting multipartFile to file", e);
+            //log.error("Error converting multipartFile to file", e);
         }
         return convertedFile;
     }
@@ -85,7 +86,7 @@ public class StorageService {
         File fileObject = convertMultiPartFileToFile(file);
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
         String urlImage = getFileUrl(fileName, bucketName);
-        user.setUrlImageProfile(urlImage);
+        //user.setUrlImageProfile(urlImage);
         System.out.println("URL: " + urlImage);
         fileObject.delete();
         return user;

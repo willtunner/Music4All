@@ -7,9 +7,7 @@ import com.music4all.Music4All.services.implementations.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
@@ -40,7 +38,6 @@ public class IndexController {
           GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest("musicarchives", s)
                     .withMethod(HttpMethod.GET)
                     .withExpiration(expiration);
-            // Gera o URL prescrito
             URL presignedUrl = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
             System.out.println(presignedUrl);
             urlSongs.add(presignedUrl.toString());
@@ -64,9 +61,15 @@ public class IndexController {
         return "login";
     }
 
-    @PostMapping
+    @PostMapping("home")
     public String handleFileUpload(@RequestParam("file")MultipartFile file) {
         storageService.uploadFile(file);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/home/delete")
+    public String deleteFileHome(@RequestParam("delete") String fileName) {
+        if (fileName != null && !fileName.isEmpty()) storageService.deleteFile(fileName);
         return "redirect:/home";
     }
 
