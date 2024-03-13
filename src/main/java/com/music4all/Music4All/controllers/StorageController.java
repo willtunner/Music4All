@@ -41,7 +41,7 @@ public class StorageController {
 
 
     @PostMapping("/upload-user-test")
-    public User saveUser(@RequestParam(value = "file") MultipartFile file, User user) {
+    public User saveUser(@RequestParam(value = "file", required = false) MultipartFile file, User user) {
         String bucketName = "imageusers";
        User userWithImage =  service.saveImageUser(file, user, bucketName);
 

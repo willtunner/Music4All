@@ -82,13 +82,15 @@ public class StorageService {
 
 
     public User saveImageUser(MultipartFile file, User user, String bucketName) {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        File fileObject = convertMultiPartFileToFile(file);
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
-        String urlImage = getFileUrl(fileName, bucketName);
-        //user.setUrlImageProfile(urlImage);
-        System.out.println("URL: " + urlImage);
-        fileObject.delete();
+        if (file != null && !file.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File fileObject = convertMultiPartFileToFile(file);
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
+            String urlImage = getFileUrl(fileName, bucketName);
+            user.setProfileImageUrl(urlImage);
+            fileObject.delete();
+            System.out.println("URL: " + urlImage);
+        }
         return user;
     }
 

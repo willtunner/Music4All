@@ -34,9 +34,6 @@ public class BandController {
 
     @PostMapping
     public ResponseEntity<Response> createBand(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
-
-
-
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())

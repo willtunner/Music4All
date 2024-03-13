@@ -33,7 +33,7 @@ public class User {
     @JsonIgnore
     private UserImageProfile image;
 
-    private String profileImageUrl;
+    private String profileImageUrl = null;
 
     @Email
     @NotBlank(message = "{email.not.blank}")

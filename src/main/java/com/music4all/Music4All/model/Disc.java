@@ -57,7 +57,6 @@ public class Disc {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
-    @JsonManagedReference
     private Band band;
 
     @Column(columnDefinition = "TIMESTAMP")
