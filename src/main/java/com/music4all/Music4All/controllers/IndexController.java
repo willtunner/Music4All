@@ -83,27 +83,12 @@ class ObjectIndex {
     private String fileNameRefactor;
     private String urlSong;
 
-    // Getters e setters
-
-
-    public String getFileNameRefactor() {
-        return fileNameRefactor;
-    }
-
     public void setFileNameRefactor(String fileNameRefactor) {
         this.fileNameRefactor = fileNameRefactor;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getUrlSong() {
-        return urlSong;
     }
 
     public void setUrlSong(String urlSong) {
