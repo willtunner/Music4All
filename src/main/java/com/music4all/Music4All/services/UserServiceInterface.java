@@ -15,7 +15,7 @@ public interface UserServiceInterface {
 
     List<User> getUsers(String name);
     List<User>getAllUsers();
-    UserDTO getUserById(Long idUser);
+    User getUserById(Long idUser);
     User updateUser(UserDtoRecord user, Long id);
 
 }

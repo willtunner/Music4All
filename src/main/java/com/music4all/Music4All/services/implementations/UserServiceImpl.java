@@ -93,28 +93,39 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public UserDTO getUserById(Long idUser) {
-        UserDTO userDTO = new UserDTO();
-        User user = userRepository.findById(idUser).orElseThrow();
+    public User getUserById(Long idUser) {
+//        UserDTO userDTO = new UserDTO();
+//        User user = userRepository.findById(idUser).orElseThrow();
+//
+//        userDTO.setId(user.getId());
+//        userDTO.setNome(user.getName());
+//        userDTO.setAge(user.getAge());
+//        userDTO.setCellphone(user.getCellphone());
+//
+//        if (user.getImage() == null) {
+//            userDTO.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+//        } else {
+//            userDTO.setLinkImageProfile(user.getImage().getLink());
+//        }
+//
+//        userDTO.setBands(user.getBands());
+//        userDTO.setFollowing(user.getFollowing());
+//        userDTO.setFollowers(user.getFollowers());
+//        userDTO.setGender(user.getGender());
+//        userDTO.setEmail(user.getEmail());
+//        userDTO.setCreated(user.getCreated());
+//        return userDTO;
 
-        userDTO.setId(user.getId());
-        userDTO.setNome(user.getName());
-        userDTO.setAge(user.getAge());
-        userDTO.setCellphone(user.getCellphone());
+        Optional<User> user = userRepository.findById(idUser);
 
-        if (user.getImage() == null) {
-            userDTO.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
+        if (user.isPresent()) {
+            return user.get();
         } else {
-            userDTO.setLinkImageProfile(user.getImage().getLink());
+            log.info("User DON'T find");
+            return null;
         }
 
-        userDTO.setBands(user.getBands());
-        userDTO.setFollowing(user.getFollowing());
-        userDTO.setFollowers(user.getFollowers());
-        userDTO.setGender(user.getGender());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setCreated(user.getCreated());
-        return userDTO;
+
     }
 
     @Override

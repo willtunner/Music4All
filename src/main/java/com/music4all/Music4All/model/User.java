@@ -64,8 +64,7 @@ public class User {
     @OneToMany(mappedBy="from")
     private List<Followers> following;
 
-    @ManyToMany(mappedBy = "members")
-    @JsonIgnore
+    @OneToMany()
     List<Band> bands;
 
     private String urlImageProfile;

@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete an user", description = "Delete an user from the music4all by ID.")
+    @Operation(summary = "Delete an user", description = "Delete an user from the music4all by id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")

@@ -1,7 +1,6 @@
 package com.music4all.Music4All.model;
 import com.fasterxml.jackson.annotation.*;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
-import com.music4all.Music4All.model.imagesModels.UserImageProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
