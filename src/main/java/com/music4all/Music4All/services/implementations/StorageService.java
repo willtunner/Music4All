@@ -70,7 +70,7 @@ public class StorageService {
 
 
 
-    private File convertMultiPartFileToFile(MultipartFile file) {
+    public File convertMultiPartFileToFile(MultipartFile file) {
         File convertedFile = new File(file.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(file.getBytes());
@@ -94,7 +94,7 @@ public class StorageService {
         return user;
     }
 
-    private String getFileUrl(String fileName, String bucketName) {
+    public String getFileUrl(String fileName, String bucketName) {
         return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
     }
 

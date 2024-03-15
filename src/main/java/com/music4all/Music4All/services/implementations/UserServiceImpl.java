@@ -1,5 +1,7 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.music4all.Music4All.dtos.UserDTO;
 import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
 import com.music4all.Music4All.enun.EmailType;
@@ -14,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +32,30 @@ public class UserServiceImpl implements UserServiceInterface {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ImageUserProfileServiceImpl imageUserProfileService;
+    private final StorageService storageService;
+    @Autowired
+    private AmazonS3 s3Client;
     @Autowired
     private EmailServiceImpl emailService;
-
+    String bucketName = "imageusers";
 
     @Override
-    public User createUser(User user) throws MessagingException {
+    public User createUser(User user, MultipartFile file) throws MessagingException {
+
+        if (file != null && !file.isEmpty()) {
+            if (!file.getContentType().startsWith("image/")) {
+                throw new IllegalArgumentException("The file sent is not an image");
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File fileObject = storageService.convertMultiPartFileToFile(file);
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
+            String urlImage = storageService.getFileUrl(fileName, bucketName);
+            user.setProfileImageUrl(urlImage);
+            fileObject.delete();
+            System.out.println("URL: " + urlImage);
+        }
+
         log.info("Saving new user {} to the database", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

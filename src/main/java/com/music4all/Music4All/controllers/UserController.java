@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -54,11 +55,12 @@ public class UserController {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Response> createUser(@RequestBody @Valid User user) throws MessagingException, MessagingException {
+    public ResponseEntity<Response> createUser(@RequestParam(value = "file", required = false) MultipartFile file,
+                                               @ModelAttribute @Valid User user) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("user created", userService.createUser(user)))
+                        .data(Map.of("user created", userService.createUser(user, file)))
                         .message("User created")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
