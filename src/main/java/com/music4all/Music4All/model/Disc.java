@@ -1,15 +1,12 @@
 package com.music4all.Music4All.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,11 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-public class Disc {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Disc extends  Common {
 
     @NotBlank(message = "{name.not.blank}")
     private String name;
@@ -37,9 +30,6 @@ public class Disc {
 
     @Column(columnDefinition = "integer default 0")
     private Integer dislike;
-
-    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
-    private Boolean deleted = Boolean.FALSE;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "disc_members",
@@ -58,8 +48,5 @@ public class Disc {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "band_id", insertable = false, updatable = false)
     private Band band;
-
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime created = LocalDateTime.now();
 
 }

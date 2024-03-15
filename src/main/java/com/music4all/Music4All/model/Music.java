@@ -1,6 +1,5 @@
 package com.music4all.Music4All.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -13,13 +12,9 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class Music {
+public class Music extends  Common{
 
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String nameMusic;
 
@@ -46,15 +41,12 @@ public class Music {
 
     private Integer auditions;
 
-    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
-    private Boolean deleted = Boolean.FALSE;
-
     @Column(name = "disc_id")
     private Long discId;
+
     @ManyToOne
     @JoinColumn(name = "disc_id", insertable = false, updatable = false)
     @JsonIgnore
-//    @JsonBackReference
     private Disc disc;
 
     @ManyToMany(fetch = FetchType.EAGER)

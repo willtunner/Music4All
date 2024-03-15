@@ -5,17 +5,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class Band {
+public class Band extends Common {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NotBlank(message = "{name.not.blank}")
     private String name;
@@ -62,12 +58,6 @@ public class Band {
 
     @NotBlank(message = "{bandState.not.blank}")
     private String state;
-
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime created = LocalDateTime.now();
-
-    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
-    private Boolean deleted = Boolean.FALSE;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JsonBackReference

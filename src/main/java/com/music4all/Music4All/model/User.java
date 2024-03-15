@@ -16,11 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class User extends Common {
 
     @NotBlank(message = "{name.not.blank}")
     private String name;
@@ -49,12 +45,6 @@ public class User {
     private String gender;
 
     private Integer age = 0;
-
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime created = LocalDateTime.now();
-
-    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
-    private Boolean deleted = Boolean.FALSE;
 
     // A user can have multiple followers - followers
     @OneToMany(mappedBy="to")
