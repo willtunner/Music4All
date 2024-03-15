@@ -1,7 +1,7 @@
 package com.music4all.Music4All.services.implementations;
 
 import com.music4all.Music4All.dtos.BandDTO;
-import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
+import com.music4all.Music4All.dtos.bandDtos.BandDtoRecord;
 import com.music4all.Music4All.enun.EmailType;
 import com.music4all.Music4All.model.Band;
 import com.music4all.Music4All.model.User;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
@@ -30,23 +31,23 @@ public class BandServiceImpl implements BandServiceInterface {
     private final BandRepository bandRepository;
     private final UserRepository userRepository;
     private final ImageBandLogoSeriveImpl imageBandLogoService;
+    private final StorageService storageService;
     @Autowired
     private EmailServiceImpl emailService;
 
     private final ImageUserProfileServiceImpl imageUserProfileService;
+    String bucketName = "imagesband";
 
     @Override
-    public Band createBand(BandDotRecord band) throws MessagingException, IOException {
-        Band newBand = new Band();
-        newBand.setName(band.name());
-        newBand.setCity(band.city());
-        newBand.setCountry(band.country());
-        newBand.setGenre(band.genre());
-        newBand.setState(band.state());
-        newBand.setCreatorId(band.creatorId());
-        bandRepository.save(newBand);
-        this.emailService.saveEmail(newBand.getId(), EmailType.CREATE_BAND);
-        return newBand;
+    @Transactional
+    public Band createBand(BandDtoRecord bandDtoRecord, MultipartFile file) throws MessagingException, IOException {
+
+        Band band = new Band(bandDtoRecord);
+        String urlImage = storageService.saveImageS3(bucketName, file);
+        if (urlImage != null) band.setBandImageUrl(urlImage);
+        bandRepository.save(band);
+        this.emailService.saveEmail(band.getId(), EmailType.CREATE_BAND);
+        return band;
     }
 
     @Override
@@ -181,17 +182,20 @@ public class BandServiceImpl implements BandServiceInterface {
     }
 
     @Override
-    public Band updateBand(BandDotRecord bandDto, Long id) {
-        if ( id != null) {
-            Optional<Band> bandOptional = bandRepository.findById(id);
+    public Band updateBand(BandDtoRecord bandDto, MultipartFile file) {
+        if ( bandDto.id() != null) {
+            Optional<Band> bandOptional = bandRepository.findById(bandDto.id());
             if (bandOptional.isPresent()) {
                 Band bandSave = bandOptional.get();
+
+                String urlImage = storageService.saveImageS3(bucketName, file);
 
                 if (bandDto.name() != null && !bandDto.name().isEmpty()) bandSave.setName(bandDto.name());
                 if (bandDto.state() != null && !bandDto.state().isEmpty()) bandSave.setState(bandDto.state());
                 if (bandDto.country() != null && !bandDto.country().isEmpty()) bandSave.setCountry(bandDto.country());
                 if (bandDto.city() != null && !bandDto.city().isEmpty()) bandSave.setCity(bandDto.city());
                 if (bandDto.genre() != null && !bandDto.genre().isEmpty()) bandSave.setGenre(bandDto.genre());
+                if (urlImage != null) bandSave.setBandImageUrl(urlImage);
 
                 log.info("Band {} updated success", bandDto.name());
                 return bandRepository.save(bandSave);
@@ -203,7 +207,6 @@ public class BandServiceImpl implements BandServiceInterface {
             log.info("Band DON'T update");
             return null;
         }
-
 
     }
 

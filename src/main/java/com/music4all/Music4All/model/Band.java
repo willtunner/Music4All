@@ -1,5 +1,6 @@
 package com.music4all.Music4All.model;
 import com.fasterxml.jackson.annotation.*;
+import com.music4all.Music4All.dtos.bandDtos.BandDtoRecord;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -9,9 +10,19 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class Band extends Common {
 
+    public Band() {
+    }
+
+    public Band(BandDtoRecord bandDtoRecord) {
+        this.name = bandDtoRecord.name();
+        this.genre = bandDtoRecord.genre();
+        this.country = bandDtoRecord.country();
+        this.city = bandDtoRecord.city();
+        this.state = bandDtoRecord.state();
+        this.creatorId = bandDtoRecord.creatorId();
+    }
 
     @NotBlank(message = "{name.not.blank}")
     private String name;
@@ -23,6 +34,8 @@ public class Band extends Common {
     @JoinColumn(name = "logo_band_id", insertable=false, updatable=false)
     @JsonIgnore
     private ImageBandLogo logo;
+
+    private String bandImageUrl = null;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

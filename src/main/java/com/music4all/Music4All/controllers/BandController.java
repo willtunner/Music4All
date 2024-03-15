@@ -1,6 +1,6 @@
 package com.music4all.Music4All.controllers;
 
-import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
+import com.music4all.Music4All.dtos.bandDtos.BandDtoRecord;
 import com.music4all.Music4All.model.imagesModels.ImageBandLogo;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.model.response.SaveResult;
@@ -33,11 +33,12 @@ public class BandController {
     private final ImageBandLogoSeriveImpl imageBandLogoService;
 
     @PostMapping
-    public ResponseEntity<Response> createBand(@RequestBody BandDotRecord band) throws MessagingException, MessagingException, IOException {
+    public ResponseEntity<Response> createBand(@RequestParam(value = "file", required = false) MultipartFile file,
+                                               @ModelAttribute BandDtoRecord band) throws MessagingException, MessagingException, IOException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band_created", bandService.createBand(band)))
+                        .data(Map.of("band_created", bandService.createBand(band, file)))
                         .message("Band created success!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -128,13 +129,14 @@ public class BandController {
         );
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Response> addMusics(@PathVariable("id") Long id, @RequestBody BandDotRecord bandDto) {
+    @PutMapping
+    public ResponseEntity<Response> addMusics(@RequestParam(value = "file", required = false) MultipartFile file,
+                                              @ModelAttribute BandDtoRecord bandDto) {
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("updated_band", bandService.updateBand(bandDto, id)))
+                        .data(Map.of("updated_band", bandService.updateBand(bandDto, file)))
                         .message("Updated band by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

@@ -42,27 +42,15 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     public User createUser(User user, MultipartFile file) throws MessagingException {
 
-        if (file != null && !file.isEmpty()) {
-            if (!file.getContentType().startsWith("image/")) {
-                throw new IllegalArgumentException("The file sent is not an image");
-            }
+        String urlImage = storageService.saveImageS3(bucketName, file);
 
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            File fileObject = storageService.convertMultiPartFileToFile(file);
-            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
-            String urlImage = storageService.getFileUrl(fileName, bucketName);
-            user.setProfileImageUrl(urlImage);
-            fileObject.delete();
-            System.out.println("URL: " + urlImage);
-        }
-
-        log.info("Saving new user {} to the database", user.getName());
+        if (urlImage != null) user.setProfileImageUrl(urlImage);
+        if (!user.getCellphone().isEmpty()) twilioService.smsCreateUser(user.getCellphone(), user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
-        if (!user.getCellphone().isEmpty()) twilioService.smsCreateUser(user.getCellphone(), user.getName());
-
         emailService.saveEmail(user.getId(), EmailType.CREATE_USER);
+
+        log.info("Saving new user {} to the database", user.getName());
         return user;
     }
 

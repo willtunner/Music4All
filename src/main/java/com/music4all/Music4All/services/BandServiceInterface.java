@@ -1,9 +1,10 @@
 package com.music4all.Music4All.services;
 
 import com.music4all.Music4All.dtos.BandDTO;
-import com.music4all.Music4All.dtos.bandDtos.BandDotRecord;
+import com.music4all.Music4All.dtos.bandDtos.BandDtoRecord;
 import com.music4all.Music4All.model.Band;
 import jakarta.mail.MessagingException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface BandServiceInterface {
 
-    Band createBand(BandDotRecord band) throws MessagingException, IOException;
+    Band createBand(BandDtoRecord band, MultipartFile file) throws MessagingException, IOException;
     Band getBand(String bandName);
     Band addMember(Long bandId, Long userId);
     Object like(Long bandId, Long userId);
@@ -25,6 +26,5 @@ public interface BandServiceInterface {
     Boolean deleteBand(Long idBand);
     List<BandDTO> getBands();
     Optional<Band> getBandById(Long idBand);
-
-    Band updateBand(BandDotRecord bandDto, Long id);
+    Band updateBand(BandDtoRecord bandDto, MultipartFile file);
 }

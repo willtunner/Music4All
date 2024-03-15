@@ -138,10 +138,23 @@ public class StorageService {
             request.setContinuationToken(result.getNextContinuationToken());
         } while (result.isTruncated());
 
-        //return urls;
-//        File fileObject = convertMultiPartFileToFile(file);
-//        s3Client.putObject(new PutObjectRequest(bucketName, fileName,fileObject ));
-//        fileObject.delete();
         return urls;
+    }
+
+    public String saveImageS3(String bucketName, MultipartFile file) {
+        if (file != null && !file.isEmpty()) {
+            if (!file.getContentType().startsWith("image/")) {
+                throw new IllegalArgumentException("The file sent is not an image");
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File fileObject = convertMultiPartFileToFile(file);
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
+            String urlImage = getFileUrl(fileName, bucketName);
+            fileObject.delete();
+            return urlImage;
+        }
+
+        return null;
     }
 }
