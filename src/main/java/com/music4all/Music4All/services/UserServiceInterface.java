@@ -16,6 +16,6 @@ public interface UserServiceInterface {
     List<User> getUsers(String name);
     List<User>getAllUsers();
     User getUserById(Long idUser);
-    User updateUser(UserDtoRecord user, Long id);
+    User updateUser(UserDtoRecord user, MultipartFile file);
 
 }

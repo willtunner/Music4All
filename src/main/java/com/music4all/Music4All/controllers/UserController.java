@@ -123,17 +123,18 @@ public class UserController {
         );
     }
 
-    @PutMapping("{id}")
+    @PutMapping
     @Operation(summary = "Update an user", description = "Updates an existing user in the music4all by ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<Response> updateUser(@PathVariable("id") Long id, @RequestBody  @Valid UserDtoRecord user) {
+    public ResponseEntity<Response> updateUser(@RequestParam(value = "file", required = false) MultipartFile file,
+                                               @ModelAttribute  @Valid UserDtoRecord user) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("update user by id", userService.updateUser(user, id)))
+                        .data(Map.of("update user by id", userService.updateUser(user, file)))
                         .message("User updated!")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

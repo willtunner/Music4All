@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @RequestMapping("/band")
 @RequiredArgsConstructor
 @Slf4j
@@ -37,7 +37,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("band created", bandService.createBand(band)))
+                        .data(Map.of("band_created", bandService.createBand(band)))
                         .message("Band created success!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -50,7 +50,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("list all bands", bandService.getBands()))
+                        .data(Map.of("bands", bandService.getBands()))
                         .message("Listed All bands")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -63,7 +63,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("deleted band", bandService.deleteBand(id)))
+                        .data(Map.of("deleted_band", bandService.deleteBand(id)))
                         .message("Deleted Band")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -78,7 +78,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listing by name", bandService.getBandByName(name)))
+                        .data(Map.of("listing_by_name", bandService.getBandByName(name)))
                         .message("Listing Band by name")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -92,7 +92,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listing more auditions by state", bandService.getBandByStateByLimit(state)))
+                        .data(Map.of("auditions", bandService.getBandByStateByLimit(state)))
                         .message("Listing more auditions by state")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -106,7 +106,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listing by state", bandService.getBandByState(state)))
+                        .data(Map.of("listing_by_state", bandService.getBandByState(state)))
                         .message("Listing Band by state")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -120,7 +120,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listed by id", bandService.getBandById(id)))
+                        .data(Map.of("listed_by_id", bandService.getBandById(id)))
                         .message("List Band by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -134,7 +134,7 @@ public class BandController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("updated band", bandService.updateBand(bandDto, id)))
+                        .data(Map.of("updated_band", bandService.updateBand(bandDto, id)))
                         .message("Updated band by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())

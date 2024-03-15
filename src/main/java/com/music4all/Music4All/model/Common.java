@@ -25,8 +25,6 @@ public abstract class Common implements Serializable {
     private Boolean deleted = Boolean.FALSE;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created", updatable = false, insertable = false,
-            columnDefinition = "TIMESTAMP WITHOUT TIME ZONE DEFAULT now()")
     private LocalDateTime created = LocalDateTime.now();
 
     @Temporal(TemporalType.TIMESTAMP)

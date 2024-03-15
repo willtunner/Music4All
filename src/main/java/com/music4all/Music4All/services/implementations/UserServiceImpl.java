@@ -2,7 +2,6 @@ package com.music4all.Music4All.services.implementations;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.music4all.Music4All.dtos.UserDTO;
 import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
 import com.music4all.Music4All.enun.EmailType;
 import com.music4all.Music4All.model.User;
@@ -33,6 +32,7 @@ public class UserServiceImpl implements UserServiceInterface {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ImageUserProfileServiceImpl imageUserProfileService;
     private final StorageService storageService;
+    private final TwilioService twilioService;
     @Autowired
     private AmazonS3 s3Client;
     @Autowired
@@ -59,6 +59,9 @@ public class UserServiceImpl implements UserServiceInterface {
         log.info("Saving new user {} to the database", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
+        if (!user.getCellphone().isEmpty()) twilioService.smsCreateUser(user.getCellphone(), user.getName());
+
         emailService.saveEmail(user.getId(), EmailType.CREATE_USER);
         return user;
     }
@@ -94,28 +97,6 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public User getUserById(Long idUser) {
-//        UserDTO userDTO = new UserDTO();
-//        User user = userRepository.findById(idUser).orElseThrow();
-//
-//        userDTO.setId(user.getId());
-//        userDTO.setNome(user.getName());
-//        userDTO.setAge(user.getAge());
-//        userDTO.setCellphone(user.getCellphone());
-//
-//        if (user.getImage() == null) {
-//            userDTO.setLinkImageProfile("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png");
-//        } else {
-//            userDTO.setLinkImageProfile(user.getImage().getLink());
-//        }
-//
-//        userDTO.setBands(user.getBands());
-//        userDTO.setFollowing(user.getFollowing());
-//        userDTO.setFollowers(user.getFollowers());
-//        userDTO.setGender(user.getGender());
-//        userDTO.setEmail(user.getEmail());
-//        userDTO.setCreated(user.getCreated());
-//        return userDTO;
-
         Optional<User> user = userRepository.findById(idUser);
 
         if (user.isPresent()) {
@@ -129,18 +110,33 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public User updateUser(UserDtoRecord userDto, Long id) {
-        if ( userDto.name() != null ) {
-            Optional<User> user = userRepository.findById(id);
+    public User updateUser(UserDtoRecord userDto, MultipartFile file) {
+        if ( userDto.id() != null ) {
+            Optional<User> user = userRepository.findById(Long.valueOf(userDto.id()));
 
             if(user.isPresent()) {
-                log.info("User {} saved success", userDto.name());
+                if (file != null && !file.isEmpty()) {
+                    if (!file.getContentType().startsWith("image/")) {
+                        throw new IllegalArgumentException("The file sent is not an image");
+                    }
+
+                    String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                    File fileObject = storageService.convertMultiPartFileToFile(file);
+                    s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
+                    String urlImage = storageService.getFileUrl(fileName, bucketName);
+                    user.get().setProfileImageUrl(urlImage);
+                    fileObject.delete();
+                    System.out.println("URL: " + urlImage);
+                }
+
                 if (!userDto.password().isEmpty()) user.get().setPassword(passwordEncoder.encode(userDto.password()));
                 if (!userDto.name().isEmpty()) user.get().setName(userDto.name());
                 if (!userDto.email().isEmpty()) user.get().setEmail(userDto.email());
                 if (!userDto.cellphone().isEmpty()) user.get().setCellphone(userDto.cellphone());
                 if (!userDto.gender().isEmpty()) user.get().setGender(userDto.gender());
                 if (userDto.age() != null && userDto.age() > 0) user.get().setAge(userDto.age());
+
+                log.info("User {} saved success", userDto.name());
                 return userRepository.save(user.get());
             } else {
                 return null;
