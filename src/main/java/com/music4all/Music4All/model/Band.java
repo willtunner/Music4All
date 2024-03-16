@@ -14,7 +14,6 @@ public class Band extends Common {
 
     public Band() {
     }
-
     public Band(BandDtoRecord bandDtoRecord) {
         this.name = bandDtoRecord.name();
         this.genre = bandDtoRecord.genre();
@@ -73,7 +72,7 @@ public class Band extends Common {
     private String state;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JsonBackReference
+    @JsonBackReference
     private List<Disc> discs;
 
     @Column(name = "creator_id")
