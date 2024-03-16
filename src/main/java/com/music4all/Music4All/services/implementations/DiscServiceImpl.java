@@ -28,8 +28,12 @@ public class DiscServiceImpl implements DiscServiceInterface {
         log.info("Saving new Disc '{}' to the database", disc.getName());
         Disc discSaved = discRepository.save(disc);
         Band bandDisc = bandRepository.findById(discSaved.getBandId()).orElse(null);
-        if (bandDisc != null) {bandDisc.addDisc(discSaved);
-        bandRepository.save(bandDisc);
+        if (bandDisc != null) {
+            bandDisc.addDisc(discSaved);
+            bandRepository.save(bandDisc);
+        } else {
+            log.info("Band not found");
+            throw new RuntimeException("Band not found");
         }
         return discSaved;
     }
