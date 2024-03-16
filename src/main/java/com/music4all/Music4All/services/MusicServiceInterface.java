@@ -1,13 +1,15 @@
 package com.music4all.Music4All.services;
 
+import com.music4all.Music4All.dtos.MusicDTO;
 import com.music4all.Music4All.model.Music;
 import jakarta.mail.MessagingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface MusicServiceInterface {
-    Music createMusic(Music music) throws MessagingException;
+    Music createMusic(MusicDTO music, MultipartFile file) throws MessagingException, IOException, InterruptedException;
     Music getMusic(String bandMusic);
 
     List<Music> getMusicByName(String name);

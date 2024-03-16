@@ -1,17 +1,18 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.dtos.MusicDTO;
 import com.music4all.Music4All.model.Disc;
 import com.music4all.Music4All.model.Music;
 import com.music4all.Music4All.repositoriees.DiscRepository;
 import com.music4all.Music4All.repositoriees.MusicRepository;
 import com.music4all.Music4All.services.MusicServiceInterface;
-import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,20 +24,30 @@ public class MusicServiceImpl implements MusicServiceInterface {
 
     private final MusicRepository musicRepository;
     private final DiscRepository discRepository;
+    private final StorageService storageService;
 
     @Override
-    public Music createMusic(Music music) throws MessagingException {
+    public Music createMusic(MusicDTO music, MultipartFile file) throws IOException, InterruptedException {
         if(music != null) {
             log.info("Saving new music {} to the database", music.getNameMusic());
             Optional<Disc> discOptional = discRepository.findById(music.getDiscId());
 
             if (discOptional.isPresent()) {
                 Disc disc = discOptional.get();
+                if (file != null && !file.isEmpty()) {
+                    Music musicWithUrl = storageService.uploadMusicS3(file, disc.getId(), disc.getBandId(), music);
+                    if (musicWithUrl != null) {
+                        Music musicSaved = musicRepository.save(musicWithUrl);
+                        disc.getMusics().add(musicSaved);
+                        discRepository.save(disc);
+                        return musicSaved;
+                    }
 
-                Music musicSaved = musicRepository.save(music);
-                disc.setMusics(Collections.singletonList(musicSaved));
-                discRepository.save(disc);
-                return musicSaved;
+                }
+
+
+
+
             } else {
                 log.info("Disc not found");
                 throw  new RuntimeException("Disc not found");

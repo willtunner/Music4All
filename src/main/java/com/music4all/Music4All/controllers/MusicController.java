@@ -5,7 +5,6 @@ import com.music4all.Music4All.dtos.MusicMapper;
 import com.music4all.Music4All.model.Music;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.implementations.MusicServiceImpl;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -27,11 +27,12 @@ public class MusicController {
     private final MusicServiceImpl musicService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody Music music) throws MessagingException, MessagingException {
+    public ResponseEntity<Response> saveUser(@RequestParam(value = "file", required = false) MultipartFile file,
+                                             @ModelAttribute MusicDTO music) throws IOException, InterruptedException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Music", musicService.createMusic(music)))
+                        .data(Map.of("Music", musicService.createMusic(music, file)))
                         .message("Music saved successfully!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())

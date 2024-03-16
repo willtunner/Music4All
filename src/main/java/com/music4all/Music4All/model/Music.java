@@ -2,19 +2,26 @@ package com.music4all.Music4All.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.music4all.Music4All.dtos.MusicDTO;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
-public class Music extends  Common{
+public class Music extends  Common {
 
+    public Music() {
+    }
 
+    public Music(MusicDTO musicDTO) {
+        this.nameMusic = musicDTO.getNameMusic();
+        this.lyric = musicDTO.getLyric();
+        this.description = musicDTO.getDescription();
+        this.discId = musicDTO.getDiscId();
+    }
 
     private String nameMusic;
 
