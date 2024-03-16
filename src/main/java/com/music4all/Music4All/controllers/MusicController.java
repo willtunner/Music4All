@@ -32,7 +32,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("Music", musicService.createMusic(music, file)))
+                        .data(Map.of("music", musicService.createMusic(music, file)))
                         .message("Music saved successfully!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
@@ -45,7 +45,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("all musics", musicService.getAllMusics()))
+                        .data(Map.of("all_musics", musicService.getAllMusics()))
                         .message("listing all Musics")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -59,7 +59,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("list music by id", musicService.getMusicById(id)))
+                        .data(Map.of("music_by_id", musicService.getMusicById(id)))
                         .message("Music listed by id")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -73,7 +73,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("music by more audictions", musicService.getMusicsMoreAuditions()))
+                        .data(Map.of("more_audictions", musicService.getMusicsMoreAuditions()))
                         .message("Musics more listens")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -87,7 +87,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("listed by name", musicService.getMusicByName(name)))
+                        .data(Map.of("listed_by_name", musicService.getMusicByName(name)))
                         .message("Listed by name")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -100,7 +100,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("music updated", musicService.updateMusic(music)))
+                        .data(Map.of("music_updated", musicService.updateMusic(music)))
                         .message("Music Updated")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -113,7 +113,7 @@ public class MusicController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("add music", MusicMapper.INSTANCE.toMusic(musicDTO)))
+                        .data(Map.of("add_music", MusicMapper.INSTANCE.toMusic(musicDTO)))
                         .message("Add Music")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
