@@ -27,7 +27,7 @@ public class MusicController {
     private final MusicServiceImpl musicService;
 
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestParam(value = "file", required = false) MultipartFile file,
+    public ResponseEntity<Response> createMusic(@RequestParam(value = "file", required = false) MultipartFile file,
                                              @ModelAttribute MusicDTO music) throws IOException, InterruptedException {
         return ResponseEntity.ok(
                 Response.builder()
@@ -41,7 +41,7 @@ public class MusicController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getMusics() throws InterruptedException {
+    public ResponseEntity<Response> getAllMusics() throws InterruptedException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
