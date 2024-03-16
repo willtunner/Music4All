@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,20 +23,31 @@ public class DiscServiceImpl implements DiscServiceInterface {
 
     private final DiscRepository discRepository;
     private final BandRepository bandRepository;
+    private final StorageService storageService;
+    String bucketName = "disc-images-band";
 
     @Override
-    public Disc createDisc(Disc disc) throws MessagingException {
+    public Disc createDisc(Disc disc, MultipartFile file) throws MessagingException {
         log.info("Saving new Disc '{}' to the database", disc.getName());
-        Disc discSaved = discRepository.save(disc);
-        Band bandDisc = bandRepository.findById(discSaved.getBandId()).orElse(null);
-        if (bandDisc != null) {
-            bandDisc.addDisc(discSaved);
-            bandRepository.save(bandDisc);
+
+        Optional<Band> bandOptional = bandRepository.findById(disc.getBandId());
+
+        if (bandOptional.isPresent()) {
+            Band band = bandOptional.get();
+
+            String urlImage = storageService.saveImageS3(bucketName, file);
+            if (urlImage != null) disc.setDiscImageUrl(urlImage);
+
+            Disc discSaved = discRepository.save(disc);
+            band.addDisc(discSaved);
+            log.info("Band {} saved success", band.getName());
+            bandRepository.save(band);
+            return discSaved;
         } else {
             log.info("Band not found");
             throw new RuntimeException("Band not found");
         }
-        return discSaved;
+
     }
 
     @Override

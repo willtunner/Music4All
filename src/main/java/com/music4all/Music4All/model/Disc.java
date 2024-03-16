@@ -31,12 +31,13 @@ public class Disc extends  Common {
     @Column(columnDefinition = "integer default 0")
     private Integer dislike;
 
+    private String discImageUrl = null;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "disc_members",
             joinColumns = @JoinColumn(name = "disc_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @JsonBackReference
     public Set<User> members = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "disc")

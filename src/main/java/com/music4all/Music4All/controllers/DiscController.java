@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,11 +22,12 @@ public class DiscController {
     private final DiscServiceImpl discService;
 
     @PostMapping
-    public ResponseEntity<Response> createDisc(@RequestBody Disc disc) throws MessagingException, MessagingException {
+    public ResponseEntity<Response> createDisc(@RequestParam(value = "file", required = false) MultipartFile file,
+                                               @ModelAttribute Disc disc) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("disc created", discService.createDisc(disc)))
+                        .data(Map.of("disc created", discService.createDisc(disc, file)))
                         .message("Disco criado!")
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
