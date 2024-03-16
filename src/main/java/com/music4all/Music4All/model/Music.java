@@ -27,6 +27,7 @@ public class Music extends  Common {
 
     private String duration;
 
+    @Column(columnDefinition = "TEXT")
     private String lyric;
 
     @Column(name = "favorite", columnDefinition = "integer default 0")

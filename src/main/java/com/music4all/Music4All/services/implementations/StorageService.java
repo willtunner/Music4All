@@ -7,6 +7,8 @@ import com.music4all.Music4All.dtos.MusicDTO;
 import com.music4all.Music4All.model.Music;
 import com.music4all.Music4All.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -159,6 +161,8 @@ public class StorageService {
     }
 
     public Music uploadMusicS3(MultipartFile file, Long discId, Long bandId, MusicDTO musicDTO) throws IOException, InterruptedException {
+        int durationSeconds = 0;
+
         if (file != null && !file.isEmpty()) {
             if (!file.getContentType().startsWith("audio/")) {
                 throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE,
@@ -174,7 +178,16 @@ public class StorageService {
 
             Music musicWithUrl = new Music(musicDTO);
 
-            //musicWithUrl.setDuration(durationOutput);
+            try {
+                AudioFile audioFile = AudioFileIO.read(fileObject);
+                durationSeconds = audioFile.getAudioHeader().getTrackLength();
+                String duration = secondsToMinutes(durationSeconds);
+                musicWithUrl.setDuration(duration);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
             musicWithUrl.setMusicLink(musicUrl);
             musicWithUrl.setMineType(mimeType);
 
@@ -183,6 +196,12 @@ public class StorageService {
         } else {
             return null;
         }
+    }
+
+    private String secondsToMinutes(int durationSeconds) {
+        int minutes = durationSeconds / 60;
+        int seconds = durationSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
 
