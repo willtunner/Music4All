@@ -30,24 +30,22 @@ public class MusicServiceImpl implements MusicServiceInterface {
     public Music createMusic(MusicDTO music, MultipartFile file) throws IOException, InterruptedException {
         if(music != null) {
             log.info("Saving new music {} to the database", music.getNameMusic());
+
+            if (music.getDiscId() != null && music.getDiscId() != 0L) {
             Optional<Disc> discOptional = discRepository.findById(music.getDiscId());
 
-            if (discOptional.isPresent()) {
-                Disc disc = discOptional.get();
-                if (file != null && !file.isEmpty()) {
-                    Music musicWithUrl = storageService.uploadMusicS3(file, disc.getId(), disc.getBandId(), music);
-                    if (musicWithUrl != null) {
-                        Music musicSaved = musicRepository.save(musicWithUrl);
-                        disc.getMusics().add(musicSaved);
-                        discRepository.save(disc);
-                        return musicSaved;
+                if (discOptional.isPresent()) {
+                    Disc disc = discOptional.get();
+                    if (file != null && !file.isEmpty()) {
+                        Music musicWithUrl = storageService.uploadMusicS3(file, disc.getId(), disc.getBandId(), music);
+                        if (musicWithUrl != null) {
+                            Music musicSaved = musicRepository.save(musicWithUrl);
+                            disc.getMusics().add(musicSaved);
+                            discRepository.save(disc);
+                            return musicSaved;
+                        }
                     }
-
                 }
-
-
-
-
             } else {
                 log.info("Disc not found");
                 throw  new RuntimeException("Disc not found");
