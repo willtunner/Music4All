@@ -45,7 +45,13 @@ public class MusicServiceImpl implements MusicServiceInterface {
                             return musicSaved;
                         }
                     }
+                    Music musicNotUrl = storageService.uploadMusicS3(file, disc.getId(), disc.getBandId(), music);
+                    disc.getMusics().add(musicNotUrl);
+                    discRepository.save(disc);
+                    return musicNotUrl;
                 }
+
+
             } else {
                 log.info("Disc not found");
                 throw  new RuntimeException("Disc not found");
@@ -99,7 +105,7 @@ public class MusicServiceImpl implements MusicServiceInterface {
             }
         }
         log.info("Music id is null");
-        return null;
+        throw new RuntimeException("Music not found");
     }
 
     @Override

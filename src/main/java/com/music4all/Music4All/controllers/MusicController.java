@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,18 +24,29 @@ import java.util.Map;
 @RequestMapping("/music")
 @CrossOrigin
 @RequiredArgsConstructor
+@Tag(name = "Music Controller", description = "Operations related to music")
 public class MusicController {
 
     private final MusicServiceImpl musicService;
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Create a new music", description = "Creates a new music in music4all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     public ResponseEntity<Response> createMusic(@Parameter(description = "Music file", required = false) @RequestPart(value = "file", required = false) MultipartFile file,
-                                             @ModelAttribute MusicDTO music) throws IOException, InterruptedException {
+                                                @RequestParam("nameMusic") String nameMusic,
+                                                @RequestParam("lyric") String lyric,
+                                                @RequestParam("description") String description,
+                                                @RequestParam("discId") Long discId) throws IOException, InterruptedException {
+        MusicDTO music = new MusicDTO();
+        music.setNameMusic(nameMusic);
+        music.setLyric(lyric);
+        music.setDescription(description);
+        music.setDiscId(discId);
+
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())

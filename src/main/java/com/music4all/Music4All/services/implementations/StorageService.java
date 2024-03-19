@@ -162,6 +162,7 @@ public class StorageService {
 
     public Music uploadMusicS3(MultipartFile file, Long discId, Long bandId, MusicDTO musicDTO) throws IOException, InterruptedException {
         int durationSeconds = 0;
+        Music musicWithUrl = new Music(musicDTO);
 
         if (file != null && !file.isEmpty()) {
             if (!file.getContentType().startsWith("audio/")) {
@@ -175,8 +176,6 @@ public class StorageService {
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObject));
             String musicUrl = getFileUrl(fileName, bucketName);
             String mimeType = file.getContentType();
-
-            Music musicWithUrl = new Music(musicDTO);
 
             try {
                 AudioFile audioFile = AudioFileIO.read(fileObject);
@@ -194,7 +193,7 @@ public class StorageService {
             fileObject.delete();
             return musicWithUrl;
         } else {
-            return null;
+            return new Music(musicDTO);
         }
     }
 
