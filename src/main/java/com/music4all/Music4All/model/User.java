@@ -14,9 +14,20 @@ import java.util.List;
 
 @Entity(name = "users")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class User extends Common {
+
+    public User() {
+    }
+
+    public User(String name, String email, String password, String cellphone, String gender, Integer age) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.cellphone = cellphone;
+        this.gender = gender;
+        this.age = age;
+    }
 
     @NotBlank(message = "{name.not.blank}")
     private String name;

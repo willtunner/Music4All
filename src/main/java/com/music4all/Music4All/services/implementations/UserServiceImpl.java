@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserServiceInterface {
     public Boolean deleteUser(Long idUser) {
        if (idUser != null) {
            log.info( "Delete User by id: {}", idUser );
-           userRepository.deleteById(idUser);
+           userRepository.deletedTrueUser(idUser);
            return true;
        } else {
            return null;
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserServiceInterface {
     @Override
     public User updateUser(UserDtoRecord userDto, MultipartFile file) {
         if ( userDto.id() != null ) {
-            Optional<User> user = userRepository.findById(Long.valueOf(userDto.id()));
+            Optional<User> user = userRepository.findById(userDto.id());
 
             if(user.isPresent()) {
                 if (file != null && !file.isEmpty()) {
@@ -117,11 +117,11 @@ public class UserServiceImpl implements UserServiceInterface {
                     System.out.println("URL: " + urlImage);
                 }
 
-                if (!userDto.password().isEmpty()) user.get().setPassword(passwordEncoder.encode(userDto.password()));
-                if (!userDto.name().isEmpty()) user.get().setName(userDto.name());
-                if (!userDto.email().isEmpty()) user.get().setEmail(userDto.email());
-                if (!userDto.cellphone().isEmpty()) user.get().setCellphone(userDto.cellphone());
-                if (!userDto.gender().isEmpty()) user.get().setGender(userDto.gender());
+                if (userDto.password() != null) user.get().setPassword(passwordEncoder.encode(userDto.password()));
+                if (userDto.name() != null) user.get().setName(userDto.name());
+                if (userDto.email() != null) user.get().setEmail(userDto.email());
+                if (userDto.cellphone() != null) user.get().setCellphone(userDto.cellphone());
+                if (userDto.gender() != null) user.get().setGender(userDto.gender());
                 if (userDto.age() != null && userDto.age() > 0) user.get().setAge(userDto.age());
 
                 log.info("User {} saved success", userDto.name());

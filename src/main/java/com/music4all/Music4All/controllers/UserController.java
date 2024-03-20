@@ -5,14 +5,17 @@ import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.imageService.ImageUserProfileServiceImpl;
 import com.music4all.Music4All.services.implementations.UserServiceImpl;
+import com.music4all.Music4All.utils.FormatNumber;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,7 @@ import java.util.Map;
 @CrossOrigin
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "User Controller", description = "Operations related to user management")
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -49,14 +53,25 @@ public class UserController {
         );
     }
 
-    @PostMapping
+    @PostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Create a new user", description = "Creates a new user in music4all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     public ResponseEntity<Response> createUser(@RequestParam(value = "file", required = false) MultipartFile file,
-                                               @ModelAttribute @Valid User user) throws MessagingException, MessagingException {
+                                               @RequestParam("name") String name,
+                                               @RequestParam("email") String email,
+                                               @RequestParam("password") String password,
+                                               @RequestParam("cellphone") String cellphone,
+                                               @RequestParam("gender") String gender,
+                                               @RequestParam("age") Integer age) throws MessagingException, MessagingException {
+
+        String formatedCellphone = FormatNumber.formatPhoneNumber(cellphone);
+        User user = new User(name, email, password, formatedCellphone, gender, age);
+
+
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
@@ -123,14 +138,24 @@ public class UserController {
         );
     }
 
-    @PutMapping
+    @PutMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update an user", description = "Updates an existing user in the music4all by ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     public ResponseEntity<Response> updateUser(@RequestParam(value = "file", required = false) MultipartFile file,
-                                               @ModelAttribute  @Valid UserDtoRecord user) {
+                                               @RequestParam("id") Long id,
+                                               @RequestParam(value = "name", required = false) String name,
+                                               @RequestParam(value = "email", required = false) String email,
+                                               @RequestParam(value = "password", required = false) String password,
+                                               @RequestParam(value = "cellphone", required = false) String cellphone,
+                                               @RequestParam(value = "gender", required = false) String gender,
+                                               @RequestParam(value = "age", required = false) Integer age) {
+
+        UserDtoRecord user = new UserDtoRecord(name, email, password, cellphone, gender, age, id);
+
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
