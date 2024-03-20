@@ -4,6 +4,7 @@ import com.music4all.Music4All.dtos.EmailDTO;
 import com.music4all.Music4All.model.Email;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.implementations.EmailServiceImpl;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/mail")
+@Hidden
 public class EmailSendController {
 
     @Autowired

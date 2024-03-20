@@ -55,7 +55,7 @@ public class UserController {
 
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Create a new user", description = "Creates a new user in music4all")
+    @Operation(summary = "Create a new user", description = "Create a new user in music4all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")

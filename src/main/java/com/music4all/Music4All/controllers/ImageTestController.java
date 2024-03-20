@@ -4,6 +4,7 @@ import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.repositoriees.imageRepository.ImageTestRepository;
 import com.music4all.Music4All.services.implementations.UserTestService;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/image-test")
 @Slf4j
+@Hidden
 public class ImageTestController {
 
     private final UserTestService userTestService;

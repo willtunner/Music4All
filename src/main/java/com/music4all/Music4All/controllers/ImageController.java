@@ -3,6 +3,7 @@ package com.music4all.Music4All.controllers;
 import com.music4all.Music4All.model.Image;
 import com.music4all.Music4All.model.response.SaveResult;
 import com.music4all.Music4All.services.implementations.ImageServiceImpl;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/image")
 @Slf4j
+@Hidden
 public class ImageController {
 
     @Autowired

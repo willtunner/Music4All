@@ -1,10 +1,9 @@
 package com.music4all.Music4All.controllers;
 
 import com.music4all.Music4All.services.implementations.TwilioService;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/send-message")
@@ -17,8 +16,9 @@ public class TwilioController {
         this.twilioService = twilioService;
     }
 
-    @GetMapping("/send-sms")
-    public void sendSms() {
-        this.twilioService.sendSms();;
+    @PostMapping("/send-sms")
+    public void sendSms(@RequestParam  String messageBody, @RequestParam String phoneNumber) {
+        this.twilioService.sendSms(messageBody, phoneNumber);
     }
+
 }

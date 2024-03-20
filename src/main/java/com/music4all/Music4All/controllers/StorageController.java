@@ -2,6 +2,7 @@ package com.music4all.Music4All.controllers;
 
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.services.implementations.StorageService;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/file")
+@Hidden
 public class StorageController {
     @Autowired
     private StorageService service;

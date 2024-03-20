@@ -1,5 +1,6 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.music4all.Music4All.utils.FormatNumber;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +15,12 @@ public class TwilioService {
     @Value("${twilio.phoneNumber}")
     private String phoneNumberTwilio;
 
-    public void sendSms() {
+    public void sendSms(String textSms, String number) {
         Twilio.init(accountSid, authToken);
         Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber("+5519991748210"),
+                        new com.twilio.type.PhoneNumber(FormatNumber.formatPhoneNumber(number)),
                         new com.twilio.type.PhoneNumber(phoneNumberTwilio),
-                        "Will vc é D+")
+                        textSms)
                 .create();
 
         System.out.println(message.getSid());

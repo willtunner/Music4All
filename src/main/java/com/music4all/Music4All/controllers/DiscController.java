@@ -3,9 +3,14 @@ package com.music4all.Music4All.controllers;
 import com.music4all.Music4All.model.Disc;
 import com.music4all.Music4All.model.response.Response;
 import com.music4all.Music4All.services.implementations.DiscServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,11 +22,17 @@ import java.util.Map;
 @RequestMapping("/disc")
 @CrossOrigin
 @RequiredArgsConstructor
+@Tag(name = "Disc Controller", description = "Operations related to disc management")
 public class DiscController {
 
     private final DiscServiceImpl discService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Create a new disc", description = "Create a new disc in music4all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Disc created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     public ResponseEntity<Response> createDisc(@RequestParam(value = "file", required = false) MultipartFile file,
                                                @ModelAttribute Disc disc) throws MessagingException, MessagingException {
         return ResponseEntity.ok(
@@ -36,6 +47,11 @@ public class DiscController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all discs details", description = "Gets details of an all discs in the music4all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Discs details retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Discs not found")
+    })
     public ResponseEntity<Response> getDiscs() throws InterruptedException {
         return ResponseEntity.ok(
                 Response.builder()
@@ -49,6 +65,11 @@ public class DiscController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Delete an disc", description = "Delete an disc by id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Disc deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Disc not found")
+    })
     public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
                 Response.builder()
@@ -62,6 +83,11 @@ public class DiscController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Get disc details by id", description = "Gets details of an disc in the music4all by id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Disc details retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Disc not found")
+    })
     public ResponseEntity<Response> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
                 Response.builder()
@@ -75,6 +101,11 @@ public class DiscController {
     }
 
     @GetMapping("band/{id}")
+    @Operation(summary = "Get disc details by band", description = "Gets details of an disc in the music4all by band.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Band details retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "band not found")
+    })
     public ResponseEntity<Response> findDiscByBand(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
                 Response.builder()

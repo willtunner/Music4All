@@ -31,16 +31,16 @@ public class MusicController {
 
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Create a new music", description = "Creates a new music in music4all")
+    @Operation(summary = "Create a new music", description = "Create a new music in music4all")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     public ResponseEntity<Response> createMusic(@Parameter(description = "Music file", required = false) @RequestPart(value = "file", required = false) MultipartFile file,
-                                                @RequestParam("nameMusic") String nameMusic,
-                                                @RequestParam("lyric") String lyric,
-                                                @RequestParam("description") String description,
-                                                @RequestParam("discId") Long discId) throws IOException, InterruptedException {
+                                                @RequestParam(value = "nameMusic") String nameMusic,
+                                                @RequestParam(value = "lyric", required = false) String lyric,
+                                                @RequestParam(value = "description", required = false) String description,
+                                                @RequestParam(value = "discId") Long discId) throws IOException, InterruptedException {
         MusicDTO music = new MusicDTO();
         music.setNameMusic(nameMusic);
         music.setLyric(lyric);
