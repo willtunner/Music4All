@@ -1,7 +1,6 @@
 package com.music4all.Music4All.jwtFilters;
 
 import com.music4all.Music4All.services.JWTService;
-import com.music4all.Music4All.services.UserServiceInterface;
 import com.music4all.Music4All.services.implementations.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

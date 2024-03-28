@@ -36,8 +36,8 @@ public class IndexController {
         List<String> fileNames = storageService.getSongFileNames();
         List<ObjectIndex> objectIndexList = new ArrayList<>();
 
-        fileNames.forEach(s -> {
-          GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest("musicarchives", s)
+        fileNames.forEach(fileName -> {
+          GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest("musicarchives", fileName)
                     .withMethod(HttpMethod.GET)
                     .withExpiration(expiration);
             URL presignedUrl = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
@@ -80,10 +80,9 @@ public class IndexController {
 }
 
 class ObjectIndex {
-    private String fileName;
-
-    private String fileNameRefactor;
-    private String urlSong;
+    public String fileName;
+    public String fileNameRefactor;
+    public String urlSong;
 
     public void setFileNameRefactor(String fileNameRefactor) {
         this.fileNameRefactor = fileNameRefactor;
