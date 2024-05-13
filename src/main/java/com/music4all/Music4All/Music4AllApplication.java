@@ -25,15 +25,15 @@ public class Music4AllApplication implements CommandLineRunner {
 
 
 	public void run(String... args) throws Exception {
-		User adminAccount = userRepository.findByRole(Role.ADMIN);
-		if(adminAccount == null){
-			adminAccount = new User();
-			adminAccount.setName("admin");
-			adminAccount.setPassword(bCryptPasswordEncoder().encode("admin"));
-			adminAccount.setEmail("greencodebr@gmail.com");
-			adminAccount.setRole(Role.ADMIN);
-			userRepository.save(adminAccount);
-		}
+//		User adminAccount = userRepository.findByRole(Role.ADMIN);
+//		if(adminAccount == null){
+//			adminAccount = new User();
+//			adminAccount.setName("admin");
+//			adminAccount.setPassword(bCryptPasswordEncoder().encode("admin"));
+//			adminAccount.setEmail("greencodebr@gmail.com");
+//			adminAccount.setRole(Role.ADMIN);
+//			userRepository.save(adminAccount);
+//		}
 	}
 	@Bean
 	BCryptPasswordEncoder bCryptPasswordEncoder(){

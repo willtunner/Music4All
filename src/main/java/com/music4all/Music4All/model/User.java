@@ -45,6 +45,7 @@ public class User extends Common implements UserDetails {
     @JsonIgnore
     private UserImageProfile image;
 
+    @Column(columnDefinition = "TEXT")
     private String profileImageUrl = null;
 
     @Email

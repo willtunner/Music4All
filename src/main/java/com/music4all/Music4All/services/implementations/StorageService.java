@@ -1,5 +1,6 @@
 package com.music4all.Music4All.services.implementations;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +100,15 @@ public class StorageService {
     }
 
     public String getFileUrl(String fileName, String bucketName) {
-        return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
+        int oneHourExpiration = 3600000;
+        Date expiration = new Date(System.currentTimeMillis() + oneHourExpiration);
+        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, fileName)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(expiration);
+
+        URL presignedUrl = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+        //return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
+        return presignedUrl.toString();
     }
 
 

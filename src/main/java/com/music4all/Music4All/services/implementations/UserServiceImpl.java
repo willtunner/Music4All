@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.music4all.Music4All.dtos.userDtos.UserDtoRecord;
 import com.music4all.Music4All.enun.EmailType;
+import com.music4all.Music4All.enun.Role;
 import com.music4all.Music4All.model.User;
 import com.music4all.Music4All.repositoriees.UserRepository;
 import com.music4all.Music4All.services.UserServiceInterface;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserServiceInterface {
         if (urlImage != null) user.setProfileImageUrl(urlImage);
         if (!user.getCellphone().isEmpty()) twilioService.smsCreateUser(user.getCellphone(), user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         emailService.saveEmail(user.getId(), EmailType.CREATE_USER);
 
@@ -130,6 +132,7 @@ public class UserServiceImpl implements UserServiceInterface {
                 log.info("User {} saved success", userDto.name());
                 return userRepository.save(user.get());
             } else {
+                log.info("User DON'T Exist!");
                 return null;
             }
         } else {
