@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="efd2261a-4aff-45ae-84ff-f3096582e09d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/Music4AllApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/config/StorageConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/BandController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/DiscController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/EmailSendController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/ImageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/ImageTestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/IndexController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/MusicController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/StorageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/TwilioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/testes/AdminController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/testes/AttachmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/controllers/testes/UserControllerTeste.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/BandDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/EmailDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/JwtAuthenticationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/LoginRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/MusicDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/MusicMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/RefreshTokenRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/SignUpRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/bandDtos/BandDtoRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/dtos/userDtos/UserDtoRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/enun/EmailType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/enun/Instruments.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/enun/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/enun/StatusEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/exceptions/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/exceptions/ImageNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/jwtFilters/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Attachment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Band.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Common.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Disc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Followers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Image.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/ImageTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/LikeByMusic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/Music.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/MusicByBand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/imagesModels/ImageBandLogo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/imagesModels/UserImageProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/response/Response.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/response/ResponseData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/model/response/SaveResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/AttachmentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/BandRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/DiscRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/EmailRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/FollowersRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/ImageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/LinkeByMusicRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/MusicByBandRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/MusicRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/imageRepository/BandImageLogoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/imageRepository/ImageTestRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/repositoriees/imageRepository/UserProfileImageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/AttachmentServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/BandServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/DiscServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/EmailServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/FollowersServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/ImageServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/JWTService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/MusicServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/UserServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/UserTestServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/imageService/ImageBandLogoSeriveImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/imageService/ImageBandLogoServiceInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/imageService/ImageUserProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/imageService/ImageUserProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/AttachmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/BandServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/DiscServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/EmailServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/ImageServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/JWTServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/MusicServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/StorageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/TwilioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/services/implementations/UserTestService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/utils/Disco.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/music4all/Music4All/utils/FormatNumber.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ValidationMessages.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/image/png-clipart-medicinal-marijuana-logo-medical-cannabis-medicine-patient-dispensary-cannabis-leaf-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/alunosTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/cursosTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/detalhesCurso.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/detalhesProfessor.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/emailNewBand.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/emailNewUser.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/emails.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/erro.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/professoresTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/shared/createNewBand.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/shared/createNewUser.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/shared/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/shared/header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/shared/teste.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userView.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/music4all/Music4All/Music4AllApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2gYbdeiCZ47asnTpd7S8iNF16qD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Suporte MTB/Documents/William/Dev/BandBridge"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="efd2261a-4aff-45ae-84ff-f3096582e09d" name="Changes" comment="" />
+      <created>1715877547938</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715877547938</updated>
+    </task>
+    <servers />
+  </component>
+</project>
